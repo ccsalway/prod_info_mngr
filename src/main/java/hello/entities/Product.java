@@ -2,11 +2,7 @@ package hello.entities;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -18,7 +14,8 @@ public class Product {
     private Long id;
 
     @NotEmpty
-    @Size(min = 1, max = 5)
+    @Size(min = 1, max = 45)
+    @Column(unique = true)
     private String name;
 
     //-------------------------------

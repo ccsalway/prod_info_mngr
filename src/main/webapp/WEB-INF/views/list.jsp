@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="/WEB-INF/tlds/functions.tld" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,7 @@
 <c:forEach items="${products}" var="product">
     <tr>
         <td>${product.id}</td>
-        <td>${product.name}</td>
+        <td>${fn:htmlEscape(product.name)}</td>
     </tr>
 </c:forEach>
 </table>
