@@ -20,12 +20,14 @@
             <div class="field">
                 <label class="label">Name</label>
                 <div class="control">
-                    <input class="input" type="text" name="name" value="${fn:escapeHtml(product.name)}" placeholder="Product name" autofocus>
+                    <input class="input" type="text" name="name" value="${fn:htmlEscape(product.name)}" placeholder="Product name" autofocus>
                 </div>
+                <c:if test="${result.getFieldErrorCount('name') > 0}">
+                    <c:forEach items="${result.getFieldErrors('name')}" var="error">
+                        <p class="help is-danger">${error.getDefaultMessage()}</p>
+                    </c:forEach>
+                </c:if>
             </div>
-            <c:if test="${not empty errorMsg}">
-                <p>${errorMsg}</p>
-            </c:if>
             <div class="field is-grouped">
                 <div class="control">
                     <button type="submit" class="button is-info">Submit</button>

@@ -1,4 +1,4 @@
-package hello.entities;
+package hello.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "products")
+@Table(name = "products", uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
 public class Product {
 
     @Id
@@ -14,8 +14,7 @@ public class Product {
     private Long id;
 
     @NotEmpty
-    @Size(min = 1, max = 45)
-    @Column(unique = true)
+    @Size(min = 1, max = 32)
     private String name;
 
     //-------------------------------

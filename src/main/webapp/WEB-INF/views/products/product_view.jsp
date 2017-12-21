@@ -28,7 +28,7 @@
         <div class="field">
             <label class="label">Product Name</label>
             <div class="control">
-                <p class="input is-static">${fn:escapeHtml(product.name)}</p>
+                <p class="input is-static">${fn:htmlEscape(product.name)}</p>
             </div>
         </div>
         <div class="field">
@@ -47,9 +47,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${product.attributes}" var="attr">
+                    <c:forEach items="${attributes}" var="attr">
                         <tr data-id="${attr.id}">
-                            <td>${fn:escapeHtml(attr.name)}</td>
+                            <td>${fn:htmlEscape(attr.name)}</td>
                             <td><c:forEach items="${attr.options}" var="opt" varStatus="loop">
                                 ${opt.name}<c:if test="${!loop.last}">,</c:if>
                             </c:forEach></td>

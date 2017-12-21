@@ -28,13 +28,13 @@
         <div class="field">
             <label class="label">Product Name</label>
             <div class="control">
-                <a href="<c:url value="/product/${product.id}"/>" class="input is-static">${fn:escapeHtml(product.name)}</a>
+                <a href="<c:url value="/product/${product.id}"/>" class="input is-static">${fn:htmlEscape(product.name)}</a>
             </div>
         </div>
         <div class="field">
             <label class="label">Attribute Name</label>
             <div class="control">
-                <p class="input is-static">${fn:escapeHtml(attribute.name)}</p>
+                <p class="input is-static">${fn:htmlEscape(attribute.name)}</p>
             </div>
         </div>
         <div class="field">
@@ -54,7 +54,7 @@
                     <tbody>
                     <c:forEach items="${attribute.options}" var="opt">
                         <tr data-id="${opt.id}">
-                            <td>${fn:escapeHtml(opt.name)}</td>
+                            <td>${fn:htmlEscape(opt.name)}</td>
                         </tr>
                     </c:forEach>
                     </tbody>

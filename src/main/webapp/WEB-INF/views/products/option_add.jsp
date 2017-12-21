@@ -20,19 +20,19 @@
             <div class="field">
                 <label class="label">Product Name</label>
                 <div class="control">
-                    <p class="input is-static">${fn:escapeHtml(product.name)}</p>
+                    <p class="input is-static">${fn:htmlEscape(product.name)}</p>
                 </div>
             </div>
             <div class="field">
                 <label class="label">Attribute Name</label>
                 <div class="control">
-                    <p class="input is-static">${fn:escapeHtml(attribute.name)}</p>
+                    <p class="input is-static">${fn:htmlEscape(attribute.name)}</p>
                 </div>
             </div>
             <div class="field">
                 <label class="label">Option Name</label>
                 <div class="control">
-                    <input class="input" type="text" name="name" value="${fn:escapeHtml(option.name)}" placeholder="Option name" autofocus>
+                    <input class="input" type="text" name="name" value="${fn:htmlEscape(option.name)}" placeholder="Option name" autofocus>
                 </div>
             </div>
             <c:if test="${not empty errorMsg}">
