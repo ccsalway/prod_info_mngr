@@ -4,17 +4,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <%@ include file="fragments/header.jsp" %>
 </head>
 <body>
+<%@ include file="fragments/menu.jsp" %>
 <table>
-<c:forEach items="${products}" var="product">
+    <thead>
     <tr>
-        <td>${product.id}</td>
-        <td>${fn:htmlEscape(product.name)}</td>
+        <th>ID</th>
+        <th>Name</th>
     </tr>
-</c:forEach>
+    </thead>
+    <tbody>
+    <c:forEach items="${products}" var="product">
+        <tr>
+            <td>${product.id}</td>
+            <td><a href="<c:url value="/view/${product.id}"/>">${fn:htmlEscape(product.name)}</a></td>
+        </tr>
+    </c:forEach>
+    </tbody>
 </table>
 </body>
 </html>

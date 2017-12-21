@@ -3,10 +3,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <%@ include file="fragments/header.jsp" %>
 </head>
 <body>
+<%@ include file="fragments/menu.jsp" %>
 ${product.id} ${fn:htmlEscape(product.name)}
 </body>
 </html>
