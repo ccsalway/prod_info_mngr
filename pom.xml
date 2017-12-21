@@ -24,20 +24,24 @@
 
     <dependencies>
         <dependency>
+            <!-- includes webmvc, hibernate, validation and logging -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <!-- includes data-jpa and jdbc -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
         <dependency>
+            <!-- provides MySQL database connection -->
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
         <dependency>
+            <!-- provides support for JSP tags -->
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
         </dependency>
