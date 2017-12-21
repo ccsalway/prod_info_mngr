@@ -18,7 +18,7 @@ public class Product {
     private Long id;
 
     @NotEmpty
-    @Size(min = 1, max = 32)
+    @Size(min = 1, max = 5)
     private String name;
 
     //-------------------------------
