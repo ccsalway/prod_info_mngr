@@ -1,6 +1,7 @@
 package hello.web.controllers;
 
 import hello.domain.model.Attribute;
+import hello.domain.model.Option;
 import hello.domain.model.Product;
 import hello.domain.repository.AttributeRepository;
 import hello.domain.repository.ProductRepository;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/product/{prod_id}/attribute")
@@ -43,6 +45,7 @@ public class AttributeController {
             model.addAttribute("result", result);
             return "products/attribute_add";
         }
+        attribute.setProduct(product); // don't forget to associate the product to the attribute
         attributeService.save(attribute);
         return "redirect:/product/" + product.getId() + "/attribute/" + attribute.getId();
     }
@@ -55,12 +58,13 @@ public class AttributeController {
         }
         Attribute attribute = attributeService.getAttribute(product, id);
         if (attribute == null) {
-            return "redirect:/product/" + prod_id;
+            return "redirect:/product/" + product.getId();
         }
+        List<Option> options = attributeService.getOptions(attribute);
         model.addAttribute("product", product);
         model.addAttribute("attribute", attribute);
-        model.addAttribute("options", attributeService.getOptions(attribute));
-        return "products/product_view";
+        model.addAttribute("options", options);
+        return "products/attribute_view";
     }
 
 

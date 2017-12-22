@@ -1,5 +1,6 @@
 package hello.web.controllers;
 
+import hello.domain.model.Attribute;
 import hello.domain.model.Product;
 import hello.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/product")
@@ -80,8 +82,9 @@ public class ProductController {
         if (product == null) {
             return "redirect:/products";
         }
+        List<Attribute> attributes = productService.getAttributes(product);
         model.addAttribute("product", product);
-        model.addAttribute("attributes", productService.getAttributes(product));
+        model.addAttribute("attributes", attributes);
         return "products/product_view";
     }
 

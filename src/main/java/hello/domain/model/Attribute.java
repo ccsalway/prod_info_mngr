@@ -17,7 +17,7 @@ public class Attribute {
     @Size(min = 1, max = 32)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Product product;
 
     //-------------------------------
