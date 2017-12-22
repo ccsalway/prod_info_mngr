@@ -18,7 +18,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${products}" var="product">
+            <c:forEach items="${products.content}" var="product">
                 <tr data-id="${product.id}">
                     <td>${fn:htmlEscape(product.name)}</td>
                 </tr>

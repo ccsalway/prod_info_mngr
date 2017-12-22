@@ -1,15 +1,14 @@
-package hello.domain;
+package hello.domain.repository;
 
+import hello.domain.model.Product;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends PagingAndSortingRepository<Product, Long> {
 
-    Product findById(Long id);
+    Product findByNameEquals(String name);
 
-    Product findByNameLike(String name);
-
-    Product findByNameLikeAndIdNotIn(String name, Long id);
+    Product findByNameEqualsAndIdIsNot(String name, Long id);
 
 }

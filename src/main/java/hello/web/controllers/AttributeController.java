@@ -1,9 +1,9 @@
 package hello.web.controllers;
 
-import hello.domain.Attribute;
-import hello.domain.Product;
-import hello.domain.AttributeRepository;
-import hello.domain.ProductRepository;
+import hello.domain.model.Attribute;
+import hello.domain.model.Product;
+import hello.domain.repository.AttributeRepository;
+import hello.domain.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ public class AttributeController {
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model, @PathVariable Long prod_id) {
-        Product product = productRepository.findById(prod_id);
+        Product product = productRepository.findOne(prod_id);
         if (product == null) {
             return "products/products";
         }
@@ -36,7 +36,7 @@ public class AttributeController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String save(Model model, @PathVariable Long prod_id, @Valid Attribute attribute, BindingResult result) {
-        Product product = productRepository.findById(prod_id);
+        Product product = productRepository.findOne(prod_id);
         if (product == null) {
             return "products/products";
         }

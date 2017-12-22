@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.example</groupId>
-    <artifactId>demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
 
-    <name>stackoverflow-demo</name>
-    <description>Demo project for Stack Overflow</description>
+    <groupId>com.aspire</groupId>
+    <artifactId>web-pmi</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>Product Information Manager</name>
 
     <properties>
         <java.version>1.8</java.version>
     </properties>
 
     <parent>
+        <!-- Inherit defaults from Spring Boot -->
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.9.RELEASE</version>
@@ -24,7 +22,7 @@
 
     <dependencies>
         <dependency>
-            <!-- includes webmvc, hibernate, validation and logging -->
+            <!-- includes webmvc, hibernate, validation, logging and tomcat -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
@@ -46,11 +44,6 @@
             <artifactId>jstl</artifactId>
         </dependency>
 
-        <dependency>
-            <!-- enable an embedded Apache Tomcat instance -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-        </dependency>
         <dependency>
             <!-- provides support for .jsp file rendering -->
             <groupId>org.apache.tomcat.embed</groupId>
@@ -76,10 +69,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

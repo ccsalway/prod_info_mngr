@@ -1,13 +1,14 @@
 package hello.web.controllers;
 
-import hello.domain.Product;
-import hello.domain.AttributeRepository;
-import hello.domain.ProductRepository;
+import hello.domain.model.Product;
+import hello.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,9 +20,7 @@ import javax.validation.Valid;
 public class ProductController {
 
     @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private AttributeRepository attributeRepository;
+    private ProductService productService;
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model) {
@@ -30,55 +29,59 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String save(Model model, @Valid Product product, BindingResult result) {
-        if (productRepository.findByNameLike(product.getName()) != null) {
+    public String save(Model model, @Valid @ModelAttribute Product product, BindingResult result) {
+        if (!productService.nameAvailable(product.getName())) {
             result.addError(new FieldError("product", "name", "must be unique"));
         }
         if (result.hasErrors()) {
             model.addAttribute("result", result);
             return "products/product_add";
         }
-        productRepository.save(product);
+        productService.save(product);
         return "redirect:/product/" + product.getId();
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String edit(Model model, @PathVariable Long id) {
-        Product product = productRepository.findById(id);
+        Product product = productService.findById(id);
         if (product == null) {
-            return "products/products";
+            return "redirect:/products";
         }
         model.addAttribute("product", product);
         return "products/product_edit";
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-    public String update(Model model, @Valid Product product, BindingResult result) {
-        if (productRepository.findByNameLikeAndIdNotIn(product.getName(), product.getId()) != null) {
+    public String update(Model model, @Valid @ModelAttribute Product product, BindingResult result) {
+        if (!productService.nameAvailable(product.getName(), product.getId())) {
             result.addError(new FieldError("product", "name", "must be unique"));
         }
         if (result.hasErrors()) {
             model.addAttribute("result", result);
             return "products/product_edit";
         }
-        productRepository.save(product);
+        productService.save(product);
         return "redirect:/product/" + product.getId();
     }
 
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable Long id) {
-        productRepository.delete(id);
-        return "products/products";
+        try {
+            productService.delete(id);
+        } catch (EmptyResultDataAccessException e) {
+            // record no longer exists - possibly deleted by another user
+        }
+        return "redirect:/products";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String view(Model model, @PathVariable Long id) {
-        Product product = productRepository.findById(id);
+        Product product = productService.findById(id);
         if (product == null) {
-            return "products/products";
+            return "redirect:/products";
         }
         model.addAttribute("product", product);
-        model.addAttribute("attributes", attributeRepository.findByProduct(product));
+        model.addAttribute("attributes", productService.findAttributes(product));
         return "products/product_view";
     }
 
