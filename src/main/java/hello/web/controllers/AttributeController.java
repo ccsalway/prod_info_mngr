@@ -1,21 +1,19 @@
 package hello.web.controllers;
 
 import hello.domain.model.Attribute;
-import hello.domain.model.Option;
 import hello.domain.model.Product;
-import hello.domain.repository.AttributeRepository;
-import hello.domain.repository.ProductRepository;
+import hello.exceptions.AttributeNotFoundException;
+import hello.exceptions.ProductNotFoundException;
 import hello.service.AttributeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/product/{prod_id}/attribute")
@@ -25,47 +23,73 @@ public class AttributeController {
     private AttributeService attributeService;
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add(Model model, @PathVariable Long prod_id) {
-        Product product = attributeService.getProduct(prod_id);
-        if (product == null) {
-            return "products/products";
-        }
+    public String add(Model model, @PathVariable Long prod_id) throws ProductNotFoundException {
+        Product product = attributeService.getProduct(prod_id); // throws ProductNotFoundException
         model.addAttribute("product", product);
         model.addAttribute("attribute", new Attribute());
         return "products/attribute_add";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String save(Model model, @PathVariable Long prod_id, @Valid Attribute attribute, BindingResult result) {
-        Product product = attributeService.getProduct(prod_id);
-        if (product == null) {
-            return "products/products";
+    public String save(Model model, @PathVariable Long prod_id, @Valid Attribute attribute, BindingResult result) throws ProductNotFoundException, AttributeNotFoundException {
+        Product product = attributeService.getProduct(prod_id); // throws ProductNotFoundException
+        if (!attributeService.nameAvailable(product, attribute.getName())) {
+            result.addError(new FieldError("attribute", "name", "must be unique"));
         }
         if (result.hasErrors()) {
+            model.addAttribute("product", product);
             model.addAttribute("result", result);
             return "products/attribute_add";
         }
-        attribute.setProduct(product); // don't forget to associate the product to the attribute
+        attribute.setProduct(product);
         attributeService.save(attribute);
         return "redirect:/product/" + product.getId() + "/attribute/" + attribute.getId();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String view(Model model, @PathVariable Long prod_id, @PathVariable Long id) {
-        Product product = attributeService.getProduct(prod_id);
-        if (product == null) {
-            return "redirect:/products";
-        }
-        Attribute attribute = attributeService.getAttribute(product, id);
-        if (attribute == null) {
-            return "redirect:/product/" + product.getId();
-        }
-        List<Option> options = attributeService.getOptions(attribute);
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+    public String edit(Model model, @PathVariable Long prod_id, @PathVariable Long id) throws ProductNotFoundException, AttributeNotFoundException {
+        Product product = attributeService.getProduct(prod_id); // throws ProductNotFoundException
+        Attribute attribute = attributeService.getAttribute(product, id); // throws AttributeNotFoundException
         model.addAttribute("product", product);
         model.addAttribute("attribute", attribute);
-        model.addAttribute("options", options);
-        return "products/attribute_view";
+        return "products/attribute_edit";
     }
 
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+    public String update(Model model, @PathVariable Long prod_id, @Valid @ModelAttribute Attribute attribute, BindingResult result) throws ProductNotFoundException, AttributeNotFoundException {
+        Product product = attributeService.getProduct(prod_id); // throws ProductNotFoundException
+        attributeService.exists(product, attribute.getId()); // throws AttributeNotFoundException
+        if (!attributeService.nameAvailable(product, attribute.getName(), attribute.getId())) {
+            result.addError(new FieldError("attribute", "name", "must be unique"));
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("product", product);
+            model.addAttribute("result", result);
+            return "products/attribute_edit";
+        }
+        attribute.setProduct(product);
+        attributeService.save(attribute);
+        return "redirect:/product/" + product.getId() + "/attribute/" + attribute.getId();
+    }
+
+    @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
+    public String delete(@PathVariable Long prod_id, @PathVariable Long id) {
+        try {
+            attributeService.delete(id);
+        } catch (EmptyResultDataAccessException e) {
+            // record no longer exists - possibly deleted by another user
+        }
+        return "redirect:/product/" + prod_id;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String view(Model model, @PathVariable Long prod_id, @PathVariable Long id) throws ProductNotFoundException, AttributeNotFoundException {
+        Product product = attributeService.getProduct(prod_id); // throws ProductNotFoundException
+        Attribute attribute = attributeService.getAttribute(product, id); // throws AttributeNotFoundException
+        attribute.setOptions(attributeService.getOptions(attribute));
+        model.addAttribute("product", product);
+        model.addAttribute("attribute", attribute);
+        return "products/attribute_view";
+    }
 
 }

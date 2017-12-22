@@ -40,7 +40,7 @@
         <div class="field">
             <label class="label">Option Name</label>
             <div class="control">
-                <input class="input is-static" type="text" value="${fn:htmlEscape(option.name)}" readonly>
+                <p class="input is-static">${fn:htmlEscape(option.name)}"></p>
             </div>
         </div>
     </div>

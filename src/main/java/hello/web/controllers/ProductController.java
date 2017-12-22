@@ -2,6 +2,8 @@ package hello.web.controllers;
 
 import hello.domain.model.Attribute;
 import hello.domain.model.Product;
+import hello.exceptions.ProductNotFoundException;
+import hello.service.AttributeService;
 import hello.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -9,13 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/product")
@@ -23,6 +21,8 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private AttributeService attributeService;
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model) {
@@ -44,17 +44,15 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-    public String edit(Model model, @PathVariable Long id) {
-        Product product = productService.getProduct(id);
-        if (product == null) {
-            return "redirect:/products";
-        }
+    public String edit(Model model, @PathVariable Long id) throws ProductNotFoundException {
+        Product product = productService.getProduct(id); // throws ProductNotFoundException
         model.addAttribute("product", product);
         return "products/product_edit";
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-    public String update(Model model, @Valid @ModelAttribute Product product, BindingResult result) {
+    public String update(Model model, @Valid @ModelAttribute Product product, BindingResult result) throws ProductNotFoundException {
+        productService.exists(product.getId()); // throws ProductNotFoundException
         if (!productService.nameAvailable(product.getName(), product.getId())) {
             result.addError(new FieldError("product", "name", "must be unique"));
         }
@@ -77,14 +75,13 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String view(Model model, @PathVariable Long id) {
+    public String view(Model model, @PathVariable Long id) throws ProductNotFoundException {
         Product product = productService.getProduct(id);
-        if (product == null) {
-            return "redirect:/products";
+        product.setAttributes(productService.getAttributes(product));
+        for (Attribute attribute : product.getAttributes()) {
+            attribute.setOptions(attributeService.getOptions(attribute));
         }
-        List<Attribute> attributes = productService.getAttributes(product);
         model.addAttribute("product", product);
-        model.addAttribute("attributes", attributes);
         return "products/product_view";
     }
 

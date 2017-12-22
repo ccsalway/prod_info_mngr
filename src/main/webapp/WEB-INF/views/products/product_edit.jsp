@@ -32,9 +32,6 @@
                 <div class="control">
                     <button type="submit" class="button is-info">Submit</button>
                 </div>
-                <div class="control">
-                    <button type="reset" class="button is-text">Reset</button>
-                </div>
             </div>
         </form>
     </div>

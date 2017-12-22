@@ -10,6 +10,11 @@ import java.util.List;
 @Repository
 public interface OptionRepository extends PagingAndSortingRepository<Option, Long> {
 
-    List<Option> findByAttribute(Attribute attribute);
+    List<Option> findByAttributeEquals(Attribute attribute);
 
+    Option findByAttributeAndNameEquals(Attribute attribute, String name);
+
+    Option findByAttributeAndNameEqualsAndIdIsNot(Attribute attribute, String name, Long id);
+
+    Option findByAttributeAndIdIs(Attribute attribute, Long id);
 }

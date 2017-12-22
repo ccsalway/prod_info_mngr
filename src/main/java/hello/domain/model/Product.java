@@ -4,9 +4,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
-@Table(name = "products", uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
+@Table(name = "products")
 public class Product {
 
     @Id
@@ -16,6 +17,9 @@ public class Product {
     @NotEmpty
     @Size(min = 1, max = 32)
     private String name;
+
+    @Transient
+    private List<Attribute> attributes;
 
     //-------------------------------
 
@@ -33,6 +37,14 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Attribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<Attribute> attributes) {
+        this.attributes = attributes;
     }
 
 }

@@ -4,9 +4,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
-@Table(name = "attributes", uniqueConstraints = {@UniqueConstraint(columnNames={"product_id", "name"})})
+@Table(name = "attributes")
 public class Attribute {
 
     @Id
@@ -17,8 +18,11 @@ public class Attribute {
     @Size(min = 1, max = 32)
     private String name;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Product product;
+
+    @Transient
+    private List<Option> options;
 
     //-------------------------------
 
@@ -44,6 +48,14 @@ public class Attribute {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public List<Option> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<Option> options) {
+        this.options = options;
     }
 
 }

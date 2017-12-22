@@ -14,4 +14,7 @@ public interface AttributeRepository extends PagingAndSortingRepository<Attribut
 
     Attribute findByProductAndId(Product product, Long id);
 
+    Attribute findByProductAndNameEquals(Product product, String name);
+
+    Attribute findByProductAndNameEqualsAndIdIsNot(Product product, String name, Long id);
 }

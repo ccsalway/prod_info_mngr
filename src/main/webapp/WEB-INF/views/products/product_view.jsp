@@ -47,12 +47,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${attributes}" var="attr">
+                    <c:forEach items="${product.attributes}" var="attr">
                         <tr data-id="${attr.id}">
                             <td>${fn:htmlEscape(attr.name)}</td>
                             <td><c:forEach items="${attr.options}" var="opt" varStatus="loop">
-                                ${opt.name}<c:if test="${!loop.last}">,</c:if>
-                            </c:forEach></td>
+                                    ${opt.name}<c:if test="${!loop.last}">,</c:if>
+                                </c:forEach></td>
                         </tr>
                     </c:forEach>
                     </tbody>

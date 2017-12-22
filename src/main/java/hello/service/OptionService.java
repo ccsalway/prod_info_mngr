@@ -3,9 +3,10 @@ package hello.service;
 import hello.domain.model.Attribute;
 import hello.domain.model.Option;
 import hello.domain.model.Product;
-import hello.domain.repository.AttributeRepository;
 import hello.domain.repository.OptionRepository;
-import hello.domain.repository.ProductRepository;
+import hello.exceptions.AttributeNotFoundException;
+import hello.exceptions.OptionNotFoundException;
+import hello.exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,30 +16,54 @@ import java.util.List;
 public class OptionService {
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productService;
     @Autowired
-    private AttributeRepository attributeRepository;
+    private AttributeService attributeService;
     @Autowired
     private OptionRepository optionRepository;
 
     // -------------------------------------------------------------
 
-    public void save(Attribute attribute) {
-        attributeRepository.save(attribute);
+    public Product getProduct(Long prod_id) throws ProductNotFoundException {
+        return productService.getProduct(prod_id);
     }
 
-    public Product getProduct(Long prod_id) {
-        return productRepository.findOne(prod_id);
+    public Attribute getAttribute(Product product, Long attr_id) throws AttributeNotFoundException {
+        return attributeService.getAttribute(product, attr_id);
     }
 
-    public Attribute getAttribute(Product product, Long id) {
-        // find by product and id to avoid cross-product pollination
-        // ie, someone selecting an attribute for a different product
-        return attributeRepository.findByProductAndId(product, id);
+    // -------------------------------------------------------------
+
+    public boolean nameAvailable(Attribute attribute, String name) {
+        return optionRepository.findByAttributeAndNameEquals(attribute, name) == null;
+    }
+
+    public boolean nameAvailable(Attribute attribute, String name, Long id) {
+        return optionRepository.findByAttributeAndNameEqualsAndIdIsNot(attribute, name, id) == null;
+    }
+
+
+    public void save(Option option) {
+        optionRepository.save(option);
+    }
+
+    public Option getOption(Product product, Attribute attribute, Long id) throws OptionNotFoundException {
+        Option option = optionRepository.findByAttributeAndIdIs(attribute, id);
+        if (option == null) {
+            throw new OptionNotFoundException(product, attribute);
+        }
+        return option;
     }
 
     public List<Option> getOptions(Attribute attribute) {
-        return optionRepository.findByAttribute(attribute);
+        return optionRepository.findByAttributeEquals(attribute);
     }
 
+    public void exists(Product product, Attribute attribute, Long id) throws OptionNotFoundException {
+        getOption(product, attribute, id);
+    }
+
+    public void delete(Long id) {
+        optionRepository.delete(id);
+    }
 }
