@@ -12,4 +12,5 @@ public interface AttributeRepository extends PagingAndSortingRepository<Attribut
 
     List<Attribute> findByProduct(Product product);
 
+    Attribute findByProductAndId(Product product, Long id);
 }

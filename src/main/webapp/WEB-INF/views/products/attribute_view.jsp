@@ -52,7 +52,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${attribute.options}" var="opt">
+                    <c:forEach items="${options}" var="opt">
                         <tr data-id="${opt.id}">
                             <td>${fn:htmlEscape(opt.name)}</td>
                         </tr>

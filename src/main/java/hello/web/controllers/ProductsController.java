@@ -16,7 +16,7 @@ public class ProductsController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String viewAll(Model model) {
-        model.addAttribute("products", productService.findAll(new PageRequest(0, 100)));
+        model.addAttribute("products", productService.getAll(new PageRequest(0, 100)));
         return "products/products";
     }
 

@@ -4,6 +4,7 @@ import hello.domain.model.Attribute;
 import hello.domain.model.Product;
 import hello.domain.repository.AttributeRepository;
 import hello.domain.repository.ProductRepository;
+import hello.service.AttributeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +20,11 @@ import javax.validation.Valid;
 public class AttributeController {
 
     @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private AttributeRepository attributeRepository;
+    private AttributeService attributeService;
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model, @PathVariable Long prod_id) {
-        Product product = productRepository.findOne(prod_id);
+        Product product = attributeService.getProduct(prod_id);
         if (product == null) {
             return "products/products";
         }
@@ -36,7 +35,7 @@ public class AttributeController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String save(Model model, @PathVariable Long prod_id, @Valid Attribute attribute, BindingResult result) {
-        Product product = productRepository.findOne(prod_id);
+        Product product = attributeService.getProduct(prod_id);
         if (product == null) {
             return "products/products";
         }
@@ -44,8 +43,25 @@ public class AttributeController {
             model.addAttribute("result", result);
             return "products/attribute_add";
         }
-        attributeRepository.save(attribute);
+        attributeService.save(attribute);
         return "redirect:/product/" + product.getId() + "/attribute/" + attribute.getId();
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String view(Model model, @PathVariable Long prod_id, @PathVariable Long id) {
+        Product product = attributeService.getProduct(prod_id);
+        if (product == null) {
+            return "redirect:/products";
+        }
+        Attribute attribute = attributeService.getAttribute(product, id);
+        if (attribute == null) {
+            return "redirect:/product/" + prod_id;
+        }
+        model.addAttribute("product", product);
+        model.addAttribute("attribute", attribute);
+        model.addAttribute("options", attributeService.getOptions(attribute));
+        return "products/product_view";
+    }
+
 
 }

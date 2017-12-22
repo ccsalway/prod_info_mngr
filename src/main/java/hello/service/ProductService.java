@@ -37,15 +37,16 @@ public class ProductService {
         productRepository.delete(id);
     }
 
-    public Page<Product> findAll(PageRequest pageRequest) {
+    public Page<Product> getAll(PageRequest pageRequest) {
         return productRepository.findAll(pageRequest);
     }
 
-    public Product findById(Long id) {
+    public Product getProduct(Long id) {
         return productRepository.findOne(id);
     }
 
-    public List<Attribute> findAttributes(Product product) {
+    public List<Attribute> getAttributes(Product product) {
+        //TODO: add Paging
         return attributeRepository.findByProduct(product);
     }
 

@@ -43,7 +43,7 @@ public class ProductController {
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String edit(Model model, @PathVariable Long id) {
-        Product product = productService.findById(id);
+        Product product = productService.getProduct(id);
         if (product == null) {
             return "redirect:/products";
         }
@@ -76,12 +76,12 @@ public class ProductController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String view(Model model, @PathVariable Long id) {
-        Product product = productService.findById(id);
+        Product product = productService.getProduct(id);
         if (product == null) {
             return "redirect:/products";
         }
         model.addAttribute("product", product);
-        model.addAttribute("attributes", productService.findAttributes(product));
+        model.addAttribute("attributes", productService.getAttributes(product));
         return "products/product_view";
     }
 
