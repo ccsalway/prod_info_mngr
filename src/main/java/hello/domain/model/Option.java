@@ -17,7 +17,8 @@ public class Option {
     @Size(min = 1, max = 32)
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "attribute_id", nullable = false)
     private Attribute attribute;
 
     //-------------------------------
@@ -45,4 +46,5 @@ public class Option {
     public void setAttribute(Attribute attribute) {
         this.attribute = attribute;
     }
+
 }

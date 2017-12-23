@@ -6,11 +6,12 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface OptionRepository extends PagingAndSortingRepository<Option, Long> {
 
-    List<Option> findByAttributeEquals(Attribute attribute);
+    Set<Option> findByAttributeEquals(Attribute attribute);
 
     Option findByAttributeAndNameEquals(Attribute attribute, String name);
 

@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ProductService {
@@ -54,7 +55,7 @@ public class ProductService {
         getProduct(id);
     }
 
-    public List<Attribute> getAttributes(Product product) {
+    public Set<Attribute> getAttributes(Product product) {
         //TODO: add Paging
         return attributeRepository.findByProduct(product);
     }

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fn" uri="/WEB-INF/tlds/functions.tld" %>
 <!DOCTYPE html>
 <html lang="en" class="has-navbar-fixed-top">
@@ -27,8 +28,28 @@
         <hr/>
         <div class="field">
             <label class="label">Product Name</label>
-            <div class="control">
-                <p class="input is-static">${fn:htmlEscape(product.name)}</p>
+            <div class="content">
+                <p>
+                    ${fn:htmlEscape(product.name)}
+                </p>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Product Description</label>
+            <div class="content">
+                <p>
+                    <c:choose>
+                        <c:when test="${not empty product.description}">
+                            <c:set var="product_description" value="${fn:htmlEscape(product.description)}"/>
+                            ${fn:nl2br(product_description)}
+                        </c:when>
+                        <c:otherwise>
+                            <a href="<s:url value="/product/${product.id}/edit"/>">
+                                [Click here to add a description]
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
+                </p>
             </div>
         </div>
         <div class="field">
@@ -38,7 +59,7 @@
                 </a>
             </div>
             <label class="label">Attributes</label>
-            <div class="control">
+            <div class="content">
                 <table id="attrTable" class="table is-hoverable is-striped is-fullwidth" style="cursor:pointer;">
                     <thead>
                     <tr>
@@ -51,8 +72,8 @@
                         <tr data-id="${attr.id}">
                             <td>${fn:htmlEscape(attr.name)}</td>
                             <td><c:forEach items="${attr.options}" var="opt" varStatus="loop">
-                                    ${opt.name}<c:if test="${!loop.last}">,</c:if>
-                                </c:forEach></td>
+                                ${opt.name}<c:if test="${!loop.last}">,</c:if>
+                            </c:forEach></td>
                         </tr>
                     </c:forEach>
                     </tbody>

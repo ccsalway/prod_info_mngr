@@ -4,7 +4,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -18,8 +19,11 @@ public class Product {
     @Size(min = 1, max = 32)
     private String name;
 
-    @Transient
-    private List<Attribute> attributes;
+    @Lob
+    private String description;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private Set<Attribute> attributes = new HashSet<>();
 
     //-------------------------------
 
@@ -39,12 +43,19 @@ public class Product {
         this.name = name;
     }
 
-    public List<Attribute> getAttributes() {
+    public Set<Attribute> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<Attribute> attributes) {
+    public void setAttributes(Set<Attribute> attributes) {
         this.attributes = attributes;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

@@ -27,20 +27,26 @@
         <hr/>
         <div class="field">
             <label class="label">Product Name</label>
-            <div class="control">
-                <a href="<c:url value="/product/${product.id}"/>" class="input is-static">${fn:htmlEscape(product.name)}</a>
+            <div class="content">
+                <p>
+                    <a href="<c:url value="/product/${product.id}"/>">${fn:htmlEscape(product.name)}</a>
+                </p>
             </div>
         </div>
         <div class="field">
             <label class="label">Attribute Name</label>
-            <div class="control">
-                <a href="<c:url value="/product/${product.id}"/>/attribute/${attribute.id}" class="input is-static">${fn:htmlEscape(attribute.name)}</a>
+            <div class="content">
+                <p>
+                    <a href="<c:url value="/product/${product.id}"/>/attribute/${attribute.id}">${fn:htmlEscape(attribute.name)}</a>
+                </p>
             </div>
         </div>
         <div class="field">
             <label class="label">Option Name</label>
-            <div class="control">
-                <p class="input is-static">${fn:htmlEscape(option.name)}"></p>
+            <div class="content">
+                <p>
+                    ${fn:htmlEscape(option.name)}
+                </p>
             </div>
         </div>
     </div>

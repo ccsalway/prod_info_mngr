@@ -28,6 +28,17 @@
                     </c:forEach>
                 </c:if>
             </div>
+            <div class="field">
+                <label class="label">Product Description</label>
+                <div class="control">
+                    <textarea class="textarea" name="description" placeholder="Product description">${fn:htmlEscape(product.description)}</textarea>
+                </div>
+                <c:if test="${result.getFieldErrorCount('description') > 0}">
+                    <c:forEach items="${result.getFieldErrors('description')}" var="error">
+                        <p class="help is-danger">${error.getDefaultMessage()}</p>
+                    </c:forEach>
+                </c:if>
+            </div>
             <div class="field is-grouped">
                 <div class="control">
                     <button type="submit" class="button is-info">Submit</button>

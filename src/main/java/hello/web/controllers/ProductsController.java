@@ -15,8 +15,11 @@ public class ProductsController {
     private ProductService productService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String viewAll(Model model) {
-        model.addAttribute("products", productService.getAll(new PageRequest(0, 100)));
+    public String viewAll(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
+
+        int pageSize = 10;
+
+        model.addAttribute("page", productService.getAll(new PageRequest(page, pageSize)));
         return "products/products";
     }
 

@@ -19,14 +19,18 @@
         <form method="post" action="<s:url value="/product/${product.id}/attribute/${attribute.id}/option/${option.id}/edit"/>" autocomplete="off">
             <div class="field">
                 <label class="label">Product Name</label>
-                <div class="control">
-                    <p class="input is-static">${fn:htmlEscape(product.name)}</p>
+                <div class="content">
+                    <p>
+                        ${fn:htmlEscape(product.name)}
+                    </p>
                 </div>
             </div>
             <div class="field">
                 <label class="label">Attribute Name</label>
-                <div class="control">
-                    <p class="input is-static">${fn:htmlEscape(attribute.name)}</p>
+                <div class="content">
+                    <p>
+                        ${fn:htmlEscape(attribute.name)}
+                    </p>
                 </div>
             </div>
             <div class="field">

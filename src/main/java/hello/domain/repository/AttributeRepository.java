@@ -6,11 +6,12 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface AttributeRepository extends PagingAndSortingRepository<Attribute, Long> {
 
-    List<Attribute> findByProduct(Product product);
+    Set<Attribute> findByProduct(Product product);
 
     Attribute findByProductAndId(Product product, Long id);
 

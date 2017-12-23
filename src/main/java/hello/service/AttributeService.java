@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AttributeService {
@@ -54,7 +55,7 @@ public class AttributeService {
         getAttribute(product, id);
     }
 
-    public List<Option> getOptions(Attribute attribute) {
+    public Set<Option> getOptions(Attribute attribute) {
         return optionRepository.findByAttributeEquals(attribute);
     }
 

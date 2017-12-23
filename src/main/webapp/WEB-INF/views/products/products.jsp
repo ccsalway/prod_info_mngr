@@ -18,7 +18,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${products.content}" var="product">
+            <c:forEach items="${page.content}" var="product">
                 <tr data-id="${product.id}">
                     <td>${fn:htmlEscape(product.name)}</td>
                 </tr>
@@ -27,6 +27,7 @@
         </table>
     </div>
 </div>
+<%@ include file="../fragments/navigation.jsp"%>
 
 <script>
     $("#dataTable").find("> tbody > tr").on("click", function () {
