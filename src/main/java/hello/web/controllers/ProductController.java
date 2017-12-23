@@ -1,11 +1,14 @@
 package hello.web.controllers;
 
+import hello.domain.entity.Attribute;
 import hello.domain.entity.Product;
-import hello.exceptions.ProductNotFoundException;
-import hello.domain.service.AttributeService;
 import hello.domain.service.ProductService;
+import hello.exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,8 +23,6 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
-    @Autowired
-    private AttributeService attributeService;
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model) {
@@ -74,9 +75,15 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String view(Model model, @PathVariable Long id) throws ProductNotFoundException {
+    public String view(Model model, @PathVariable Long id,
+                       @RequestParam(name = "page", defaultValue = "0") int page,
+                       @RequestParam(name = "size", defaultValue = "10") int pageSize
+    ) throws ProductNotFoundException {
         Product product = productService.getProduct(id);
         model.addAttribute("product", product);
+        // requesting attributes separately (as opposed to using LAZY) allows the use of paging
+        Page<Attribute> attributes = productService.getAttributes(product, new PageRequest(page, pageSize, Sort.Direction.ASC, "name"));
+        model.addAttribute("attributes", attributes);
         return "products/product_view";
     }
 

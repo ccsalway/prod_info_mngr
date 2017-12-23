@@ -34,7 +34,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${page.content}" var="product">
+                <c:forEach items="${products.content}" var="product">
                     <tr data-id="${product.id}">
                         <td>${fn:htmlEscape(product.name)}</td>
                     </tr>
@@ -43,6 +43,7 @@
             </table>
         </div>
     </div>
+    <c:set var="page" value="${products}" />
     <%@ include file="../fragments/navigation.jsp" %>
 </div>
 <%@ include file="../fragments/footer.jsp" %>

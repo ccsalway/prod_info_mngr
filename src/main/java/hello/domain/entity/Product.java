@@ -9,11 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "products")
-public class Product {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Product extends BaseEntity {
 
     @NotEmpty
     @Size(min = 1, max = 32)
@@ -23,17 +19,10 @@ public class Product {
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @OrderBy("name ASC")
     private Set<Attribute> attributes = new HashSet<>();
 
     //-------------------------------
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

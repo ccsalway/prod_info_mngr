@@ -1,13 +1,15 @@
 package hello.domain.service;
 
 import hello.domain.entity.Attribute;
-import hello.domain.repository.AttributeRepository;
 import hello.domain.entity.Product;
+import hello.domain.repository.AttributeRepository;
 import hello.domain.repository.ProductRepository;
 import hello.exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -54,9 +56,8 @@ public class ProductService {
         getProduct(id);
     }
 
-    public Set<Attribute> getAttributes(Product product) {
-        //TODO: add Paging
-        return attributeRepository.findByProduct(product);
+    public Page<Attribute> getAttributes(Product product, Pageable pageable) {
+        return attributeRepository.findByProduct(product, pageable);
     }
 
 }

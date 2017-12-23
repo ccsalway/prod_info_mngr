@@ -79,7 +79,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${product.attributes}" var="attr">
+                    <c:forEach items="${attributes.content}" var="attr">
                         <tr data-id="${attr.id}">
                             <td>${fn:htmlEscape(attr.name)}</td>
                             <td><c:forEach items="${attr.options}" var="opt" varStatus="loop">
@@ -90,6 +90,8 @@
                     </tbody>
                 </table>
             </div>
+            <c:set var="page" value="${attributes}" />
+            <%@ include file="../fragments/navigation.jsp" %>
         </div>
     </div>
 </div>

@@ -8,6 +8,8 @@ import hello.domain.repository.OptionRepository;
 import hello.exceptions.AttributeNotFoundException;
 import hello.exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -16,11 +18,11 @@ import java.util.Set;
 public class AttributeService {
 
     @Autowired
-    private ProductService productService;
-    @Autowired
     private AttributeRepository attributeRepository;
     @Autowired
-    private OptionRepository optionRepository;
+    private ProductService productService;
+    @Autowired
+    private OptionService optionService;
 
     // -------------------------------------------------------------
 
@@ -54,8 +56,8 @@ public class AttributeService {
         getAttribute(product, id);
     }
 
-    public Set<Option> getOptions(Attribute attribute) {
-        return optionRepository.findByAttributeEquals(attribute);
+    public Page<Option> getOptions(Attribute attribute, Pageable pageable) {
+        return optionService.getOptions(attribute, pageable);
     }
 
     public void delete(Long id) {

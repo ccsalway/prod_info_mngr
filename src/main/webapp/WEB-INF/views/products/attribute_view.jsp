@@ -72,8 +72,8 @@
                     </thead>
                     <tbody>
                     <c:choose>
-                        <c:when test="${not empty attribute.options}">
-                            <c:forEach items="${attribute.options}" var="opt">
+                        <c:when test="${options.totalElements > 0}">
+                            <c:forEach items="${options.content}" var="opt">
                                 <tr data-id="${opt.id}">
                                     <td>${fn:htmlEscape(opt.name)}</td>
                                 </tr>
@@ -88,6 +88,8 @@
                     </tbody>
                 </table>
             </div>
+            <c:set var="page" value="${options}" />
+            <%@ include file="../fragments/navigation.jsp" %>
         </div>
     </div>
 </div>

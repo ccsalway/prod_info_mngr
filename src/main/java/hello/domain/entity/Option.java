@@ -7,11 +7,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "options")
-public class Option {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Option extends BaseEntity {
 
     @NotEmpty
     @Size(min = 1, max = 32)
@@ -22,14 +18,6 @@ public class Option {
     private Attribute attribute;
 
     //-------------------------------
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

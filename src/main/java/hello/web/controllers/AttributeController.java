@@ -1,12 +1,16 @@
 package hello.web.controllers;
 
 import hello.domain.entity.Attribute;
+import hello.domain.entity.Option;
 import hello.domain.entity.Product;
+import hello.domain.service.AttributeService;
 import hello.exceptions.AttributeNotFoundException;
 import hello.exceptions.ProductNotFoundException;
-import hello.domain.service.AttributeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -83,12 +87,18 @@ public class AttributeController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String view(Model model, @PathVariable Long prod_id, @PathVariable Long id) throws ProductNotFoundException, AttributeNotFoundException {
+    public String view(Model model,
+                       @PathVariable Long prod_id, @PathVariable Long id,
+                       @RequestParam(name = "page", defaultValue = "0") int page,
+                       @RequestParam(name = "size", defaultValue = "6") int pageSize
+    ) throws ProductNotFoundException, AttributeNotFoundException {
         Product product = attributeService.getProduct(prod_id); // throws ProductNotFoundException
         Attribute attribute = attributeService.getAttribute(product, id); // throws AttributeNotFoundException
-        attribute.setOptions(attributeService.getOptions(attribute));
+        // requesting options separately (as opposed to using LAZY) allows the use of paging
+        Page<Option> options = attributeService.getOptions(attribute, new PageRequest(page, pageSize));
         model.addAttribute("product", product);
         model.addAttribute("attribute", attribute);
+        model.addAttribute("options", options);
         return "products/attribute_view";
     }
 

@@ -9,32 +9,21 @@ import java.util.Set;
 
 @Entity
 @Table(name = "attributes")
-public class Attribute {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Attribute extends BaseEntity {
 
     @NotEmpty
     @Size(min = 1, max = 32)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) // LAZY: normally the product has already been fetched
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "attribute")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "attribute")
+    @OrderBy("name ASC")
     private Set<Option> options = new HashSet<>();
 
     //-------------------------------
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
