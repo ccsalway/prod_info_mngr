@@ -10,24 +10,42 @@
 <body>
 <jsp:include page="../fragments/navbar.jsp"/>
 <div class="section">
-    <div class="container">
-        <table id="dataTable" class="table is-hoverable is-striped is-fullwidth" style="cursor: pointer;">
-            <thead>
-            <tr>
-                <th>Name</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${page.content}" var="product">
-                <tr data-id="${product.id}">
-                    <td>${fn:htmlEscape(product.name)}</td>
+    <div class="container is-fluid">
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <h1 class="title">Products</h1>
+                </div>
+            </div>
+            <div class="level-right">
+                <div class="level-item">
+                    <a class="button is-info" href="<s:url value="/product/add"/>">
+                        New
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div style="">
+            <table id="dataTable" class="table is-hoverable is-striped is-fullwidth" style="cursor: pointer;">
+                <thead>
+                <tr>
+                    <th>Name</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <c:forEach items="${page.content}" var="product">
+                    <tr data-id="${product.id}">
+                        <td>${fn:htmlEscape(product.name)}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
+    <%@ include file="../fragments/navigation.jsp" %>
 </div>
-<%@ include file="../fragments/navigation.jsp"%>
+<%@ include file="../fragments/footer.jsp" %>
 
 <script>
     $("#dataTable").find("> tbody > tr").on("click", function () {

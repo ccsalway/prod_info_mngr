@@ -11,9 +11,6 @@
 <jsp:include page="../fragments/navbar.jsp"/>
 <div class="section">
     <div class="container">
-        <a class="button is-pulled-right" href="<s:url value="/products"/>">
-            Cancel
-        </a>
         <h1 class="title">New Product</h1>
         <hr/>
         <form method="post" action="<s:url value="/product/add"/>" autocomplete="off">
@@ -52,5 +49,7 @@
         </form>
     </div>
 </div>
+<%@ include file="../fragments/footer.jsp" %>
+
 </body>
 </html>

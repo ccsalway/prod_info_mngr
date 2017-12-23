@@ -11,19 +11,35 @@
 <jsp:include page="../fragments/navbar.jsp"/>
 <div class="section">
     <div class="container">
-        <div class="is-pulled-right">
-            <a class="button is-text" href="<s:url value="/product/${product.id}/attribute/${attribute.id}/option/add"/>">
-                New Option
-            </a>
-            <div style="display: inline-block; border-right: 1px solid black; margin: 0 8px; height: 34px;"></div>
-            <a class="button is-text" href="<s:url value="/product/${product.id}/attribute/${attribute.id}/option/${option.id}/delete"/>">
-                Delete
-            </a>
-            <a class="button" href="<s:url value="/product/${product.id}/attribute/${attribute.id}/option/${option.id}/edit"/>">
-                Edit
-            </a>
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <h1 class="title">Option</h1>
+                </div>
+            </div>
+            <div class="level-right">
+                <div class="level-item">
+                    <div class="field has-addons">
+                        <div class="control">
+                            <a class="button is-text" href="<s:url value="/product/${product.id}/attribute/${attribute.id}/option/${option.id}/delete"/>">
+                                Delete
+                            </a>
+                        </div>
+                        <div class="control">
+                            <a class="button is-info" href="<s:url value="/product/${product.id}/attribute/${attribute.id}/option/${option.id}/edit"/>">
+                                Edit
+                            </a>
+                        </div>
+                        <div class="control" style="margin-left: 1em; padding-left: 1em; border-left: 1px solid #000;">
+                            <a class="button" href="<s:url value="/product/${product.id}/attribute/${attribute.id}/option/add"/>">
+                                New
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
-        <h1 class="title">Option</h1>
         <hr/>
         <div class="field">
             <label class="label">Product Name</label>
@@ -51,6 +67,7 @@
         </div>
     </div>
 </div>
+<%@ include file="../fragments/footer.jsp" %>
 
 </body>
 </html>

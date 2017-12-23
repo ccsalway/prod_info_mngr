@@ -23,4 +23,9 @@ public class ControllerSetup {
         return request.getRequestURI();
     }
 
+    @ModelAttribute("currentYear")
+    public int currentYear() {
+        return java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+    }
+
 }

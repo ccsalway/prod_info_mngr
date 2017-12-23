@@ -1,7 +1,7 @@
-html, body {
-    height: 100%;
+.content {
+    margin-bottom: 1em;
 }
 
-body {
-    background: antiquewhite;
+.section {
+    padding: 1rem 0 3rem;
 }

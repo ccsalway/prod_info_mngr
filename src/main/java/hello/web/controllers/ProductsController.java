@@ -1,7 +1,9 @@
 package hello.web.controllers;
 
-import hello.service.ProductService;
+import hello.domain.entity.Product;
+import hello.domain.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +21,8 @@ public class ProductsController {
 
         int pageSize = 10;
 
-        model.addAttribute("page", productService.getAll(new PageRequest(page, pageSize)));
+        Page<Product> products = productService.getAll(new PageRequest(page, pageSize));
+        model.addAttribute("page", products);
         return "products/products";
     }
 

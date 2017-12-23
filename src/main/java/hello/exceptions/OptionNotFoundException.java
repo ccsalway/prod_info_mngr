@@ -1,7 +1,7 @@
 package hello.exceptions;
 
-import hello.domain.model.Attribute;
-import hello.domain.model.Product;
+import hello.domain.entity.Attribute;
+import hello.domain.entity.Product;
 
 public class OptionNotFoundException extends Exception {
 

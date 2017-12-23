@@ -1,10 +1,9 @@
 package hello.web.controllers;
 
-import hello.domain.model.Attribute;
-import hello.domain.model.Product;
+import hello.domain.entity.Product;
 import hello.exceptions.ProductNotFoundException;
-import hello.service.AttributeService;
-import hello.service.ProductService;
+import hello.domain.service.AttributeService;
+import hello.domain.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
@@ -77,10 +76,6 @@ public class ProductController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String view(Model model, @PathVariable Long id) throws ProductNotFoundException {
         Product product = productService.getProduct(id);
-        product.setAttributes(productService.getAttributes(product));
-        for (Attribute attribute : product.getAttributes()) {
-            attribute.setOptions(attributeService.getOptions(attribute));
-        }
         model.addAttribute("product", product);
         return "products/product_view";
     }

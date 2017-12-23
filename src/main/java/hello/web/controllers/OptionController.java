@@ -1,12 +1,12 @@
 package hello.web.controllers;
 
-import hello.domain.model.Attribute;
-import hello.domain.model.Option;
-import hello.domain.model.Product;
+import hello.domain.entity.Attribute;
+import hello.domain.entity.Option;
+import hello.domain.entity.Product;
 import hello.exceptions.AttributeNotFoundException;
 import hello.exceptions.OptionNotFoundException;
 import hello.exceptions.ProductNotFoundException;
-import hello.service.OptionService;
+import hello.domain.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;

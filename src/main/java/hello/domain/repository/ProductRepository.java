@@ -1,6 +1,6 @@
 package hello.domain.repository;
 
-import hello.domain.model.Product;
+import hello.domain.entity.Product;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 

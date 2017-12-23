@@ -11,9 +11,6 @@
 <jsp:include page="../fragments/navbar.jsp"/>
 <div class="section">
     <div class="container">
-        <a class="button is-pulled-right" href="<s:url value="/product/${product.id}/attribute/${attribute.id}"/>">
-            Cancel
-        </a>
         <h1 class="title">Edit Attribute</h1>
         <hr/>
         <form method="post" action="<s:url value="/product/${product.id}/attribute/${attribute.id}/edit"/>" autocomplete="off">
@@ -40,9 +37,16 @@
                 <div class="control">
                     <button type="submit" class="button is-info">Submit</button>
                 </div>
+                <div class="control">
+                    <a class="button is-text" href="<s:url value="/product/${product.id}/attribute/${attribute.id}"/>">
+                        Cancel
+                    </a>
+                </div>
             </div>
         </form>
     </div>
 </div>
+<%@ include file="../fragments/footer.jsp" %>
+
 </body>
 </html>

@@ -7,3 +7,4 @@
 <link rel="stylesheet" href="<s:url value="/static/css/global.css"/>" type="text/css">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://use.fontawesome.com/874a5f8f5d.js"></script>
+<script src="<s:url value="/static/js/navbar.js"/>"></script>
