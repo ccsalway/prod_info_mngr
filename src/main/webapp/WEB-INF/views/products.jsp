@@ -5,13 +5,13 @@
 <!DOCTYPE html>
 <html lang="en" class="has-navbar-fixed-top">
 <head>
-    <jsp:include page="../fragments/header.jsp"/>
+    <jsp:include page="fragments/header.jsp"/>
     <title>Products</title>
 </head>
 <body>
 
 <!-- navbar -->
-<jsp:include page="../fragments/navbar.jsp"/>
+<jsp:include page="fragments/navbar.jsp"/>
 
 <!-- content -->
 <div class="section">
@@ -39,7 +39,7 @@
                     <c:forEach items="${products.content}" var="prod">
                         <tr data-id="${prod.id}">
                             <td>${fn:htmlEscape(prod.name)}</td>
-                            <td class="is-narrow has-text-centered">
+                            <td class="is-narrow has-text-centered" style="padding-right:0">
                                 <c:choose>
                                     <c:when test="${prod.displayed}">
                                         <i class="fa fa-eye"></i>
@@ -63,13 +63,13 @@
 
         <!-- paging -->
         <c:set var="page" value="${products}"/>
-        <%@ include file="../fragments/navigation.jsp" %>
+        <%@ include file="fragments/navigation.jsp" %>
 
     </div> <!-- /container -->
 </div> <!-- /section -->
 
 <!-- footer -->
-<jsp:include page="../fragments/footer.jsp"/>
+<jsp:include page="fragments/footer.jsp"/>
 
 
 <script>

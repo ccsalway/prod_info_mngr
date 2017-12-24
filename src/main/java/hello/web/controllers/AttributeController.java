@@ -1,8 +1,8 @@
 package hello.web.controllers;
 
-import hello.domain.entity.Attribute;
-import hello.domain.entity.Option;
-import hello.domain.entity.Product;
+import hello.domain.entity.enities.Attribute;
+import hello.domain.entity.enities.Option;
+import hello.domain.entity.enities.Product;
 import hello.domain.service.AttributeService;
 import hello.exceptions.AttributeNotFoundException;
 import hello.exceptions.ProductNotFoundException;
@@ -24,39 +24,54 @@ public class AttributeController {
     @Autowired
     private AttributeService attributeService;
 
+    //-------------------------------------------------------
+
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add(Model model, @PathVariable Long prod_id) throws ProductNotFoundException {
+    public String add(Model model,
+                      @PathVariable Long prod_id
+    ) throws ProductNotFoundException {
         Product product = attributeService.getProduct(prod_id); // throws ProductNotFoundException
         model.addAttribute("product", product);
         model.addAttribute("attribute", new Attribute());
-        return "products/attribute_add";
+        return "attribute_add";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String save(Model model, @PathVariable Long prod_id, @Valid Attribute attribute, BindingResult result) throws ProductNotFoundException, AttributeNotFoundException {
+    public String save(Model model,
+                       @PathVariable Long prod_id,
+                       @Valid Attribute attribute,
+                       BindingResult result
+    ) throws ProductNotFoundException {
         Product product = attributeService.getProduct(prod_id); // throws ProductNotFoundException
         attribute.setProduct(product);
         attributeService.save(attribute, result);
         if (result.hasErrors()) {
             model.addAttribute("product", product);
             model.addAttribute("result", result);
-            return "products/attribute_add";
+            return "attribute_add";
         }
         return "redirect:/product/" + product.getId() + "/attribute/" + attribute.getId();
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-    public String edit(Model model, @PathVariable Long prod_id, @PathVariable Long id) throws ProductNotFoundException, AttributeNotFoundException {
+    public String edit(Model model,
+                       @PathVariable Long prod_id,
+                       @PathVariable Long id
+    ) throws ProductNotFoundException, AttributeNotFoundException {
         Product product = attributeService.getProduct(prod_id); // throws ProductNotFoundException
         Attribute attribute = attributeService.getAttribute(product, id); // throws AttributeNotFoundException
         model.addAttribute("product", product);
         model.addAttribute("attribute", attribute);
         model.addAttribute("form", attribute);
-        return "products/attribute_edit";
+        return "attribute_edit";
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-    public String update(Model model, @PathVariable Long prod_id, @Valid @ModelAttribute Attribute form, BindingResult result) throws ProductNotFoundException, AttributeNotFoundException {
+    public String update(Model model,
+                         @PathVariable Long prod_id,
+                         @Valid @ModelAttribute Attribute form,
+                         BindingResult result
+    ) throws ProductNotFoundException, AttributeNotFoundException {
         Product product = attributeService.getProduct(prod_id); // throws ProductNotFoundException
         Attribute attribute = attributeService.getAttribute(product, form.getId()); // throws AttributeNotFoundException
         form.setProduct(product);
@@ -66,7 +81,7 @@ public class AttributeController {
             model.addAttribute("product", product);
             model.addAttribute("attribute", attribute); // to separate current values with new values
             model.addAttribute("result", result);
-            return "products/attribute_edit";
+            return "attribute_edit";
         }
         return "redirect:/product/" + product.getId() + "/attribute/" + attribute.getId();
     }
@@ -94,7 +109,7 @@ public class AttributeController {
         model.addAttribute("product", product);
         model.addAttribute("attribute", attribute);
         model.addAttribute("options", options);
-        return "products/attribute_view";
+        return "attribute_view";
     }
 
 }

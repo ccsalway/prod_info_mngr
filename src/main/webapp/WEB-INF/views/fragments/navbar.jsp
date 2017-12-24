@@ -16,6 +16,9 @@
             <a class="navbar-item" href="<s:url value="/products"/>">
                 Products
             </a>
+            <a class="navbar-item" href="<s:url value="/variants"/>">
+                Variants
+            </a>
         </div>
     </div>
 </nav>

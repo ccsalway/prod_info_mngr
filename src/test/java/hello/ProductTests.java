@@ -1,15 +1,12 @@
 package hello;
 
-import hello.domain.entity.Product;
+import hello.domain.entity.enities.Product;
 import hello.domain.repository.AttributeRepository;
 import hello.domain.repository.ProductRepository;
 import hello.domain.service.ProductService;
-import hello.web.controllers.ProductController;
-import hello.web.controllers.ProductsController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;

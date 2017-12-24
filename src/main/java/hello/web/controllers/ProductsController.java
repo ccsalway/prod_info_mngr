@@ -1,6 +1,6 @@
 package hello.web.controllers;
 
-import hello.domain.entity.Product;
+import hello.domain.entity.enities.Product;
 import hello.domain.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,14 +18,16 @@ public class ProductsController {
     @Autowired
     private ProductService productService;
 
+    //-------------------------------------------------------
+
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String viewAll(Model model,
-                          @RequestParam(name = "page", defaultValue = "0") int page,
-                          @RequestParam(name = "size", defaultValue = "10") int pageSize)
-    {
+    public String listProducts(Model model,
+                               @RequestParam(name = "page", defaultValue = "0") int page,
+                               @RequestParam(name = "size", defaultValue = "10") int pageSize
+    ) {
         Page<Product> products = productService.getProducts(new PageRequest(page, pageSize));
         model.addAttribute("products", products);
-        return "products/products";
+        return "products";
     }
 
 }

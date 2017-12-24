@@ -1,10 +1,19 @@
-package hello.domain.entity;
+package hello.domain.entity.enities;
+
+import hello.domain.entity.DisplayedEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "options")
-public class Option extends BaseEntity {
+public class Option extends DisplayedEntity {
+
+    /**
+     * Display sequence position
+     */
+    @NotNull
+    private Integer position = -1;
 
     /**
      * Parent attribute
@@ -14,6 +23,14 @@ public class Option extends BaseEntity {
     private Attribute attribute;
 
     //-------------------------------
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
 
     public Attribute getAttribute() {
         return attribute;

@@ -1,8 +1,8 @@
 package hello.domain.service;
 
-import hello.domain.entity.Attribute;
-import hello.domain.entity.Option;
-import hello.domain.entity.Product;
+import hello.domain.entity.enities.Attribute;
+import hello.domain.entity.enities.Option;
+import hello.domain.entity.enities.Product;
 import hello.domain.repository.OptionRepository;
 import hello.exceptions.AttributeNotFoundException;
 import hello.exceptions.OptionNotFoundException;

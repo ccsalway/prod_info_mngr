@@ -1,7 +1,7 @@
 package hello.domain.repository;
 
-import hello.domain.entity.Attribute;
-import hello.domain.entity.Product;
+import hello.domain.entity.enities.Attribute;
+import hello.domain.entity.enities.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;

@@ -1,6 +1,6 @@
 package hello.exceptions;
 
-import hello.domain.entity.Product;
+import hello.domain.entity.enities.Product;
 
 public class AttributeNotFoundException extends Exception {
 

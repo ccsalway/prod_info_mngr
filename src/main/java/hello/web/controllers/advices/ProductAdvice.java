@@ -1,10 +1,16 @@
-package hello.exceptions;
+package hello.web.controllers.advices;
 
+import hello.exceptions.AttributeNotFoundException;
+import hello.exceptions.OptionNotFoundException;
+import hello.exceptions.ProductNotFoundException;
+import hello.web.controllers.ProductController;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice
-public class GlobalExceptionHandler {
+@ControllerAdvice(assignableTypes = {ProductController.class})
+public class ProductAdvice {
+
+    //@ExceptionHandler, @InitBinder, and @ModelAttribute
 
     @ExceptionHandler(ProductNotFoundException.class)
     public String invalidProduct() {

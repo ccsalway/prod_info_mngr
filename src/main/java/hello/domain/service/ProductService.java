@@ -1,7 +1,7 @@
 package hello.domain.service;
 
-import hello.domain.entity.Attribute;
-import hello.domain.entity.Product;
+import hello.domain.entity.enities.Attribute;
+import hello.domain.entity.enities.Product;
 import hello.domain.repository.ProductRepository;
 import hello.exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

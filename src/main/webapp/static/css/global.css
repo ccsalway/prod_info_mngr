@@ -1,19 +1,7 @@
-.content {
-    margin-bottom: 1em;
+.table tr :first-child {
+    padding-left: 0;
 }
 
-.section {
-    padding: 1rem 0 3rem;
-}
-
-.breadcrumb:not(:last-child) {
-    margin-bottom: 0;
-}
-
-.level:not(:last-child) {
-    margin-bottom: 0;
-}
-
-hr.margin-top-small {
-    margin-top: 3px;
+.table tr :last-child {
+    padding-right: 0;
 }

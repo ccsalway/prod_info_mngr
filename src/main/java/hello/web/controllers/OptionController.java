@@ -1,8 +1,8 @@
 package hello.web.controllers;
 
-import hello.domain.entity.Attribute;
-import hello.domain.entity.Option;
-import hello.domain.entity.Product;
+import hello.domain.entity.enities.Attribute;
+import hello.domain.entity.enities.Option;
+import hello.domain.entity.enities.Product;
 import hello.domain.service.OptionService;
 import hello.exceptions.AttributeNotFoundException;
 import hello.exceptions.OptionNotFoundException;
@@ -26,18 +26,28 @@ public class OptionController {
     @Autowired
     private OptionService optionService;
 
+    //-------------------------------------------------------
+
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add(Model model, @PathVariable Long prod_id, @PathVariable Long attr_id) throws ProductNotFoundException, AttributeNotFoundException {
+    public String add(Model model,
+                      @PathVariable Long prod_id,
+                      @PathVariable Long attr_id
+    ) throws ProductNotFoundException, AttributeNotFoundException {
         Product product = optionService.getProduct(prod_id); // throws ProductNotFoundException
         Attribute attribute = optionService.getAttribute(product, attr_id); // throws AttributeNotFoundException
         model.addAttribute("product", product);
         model.addAttribute("attribute", attribute);
         model.addAttribute("option", new Option());
-        return "products/option_add";
+        return "option_add";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String save(Model model, @PathVariable Long prod_id, @PathVariable Long attr_id, @Valid Option option, BindingResult result) throws ProductNotFoundException, AttributeNotFoundException {
+    public String save(Model model,
+                       @PathVariable Long prod_id,
+                       @PathVariable Long attr_id,
+                       @Valid Option option,
+                       BindingResult result
+    ) throws ProductNotFoundException, AttributeNotFoundException {
         Product product = optionService.getProduct(prod_id); // throws ProductNotFoundException
         Attribute attribute = optionService.getAttribute(product, attr_id); // throws AttributeNotFoundException
         option.setAttribute(attribute);
@@ -46,13 +56,17 @@ public class OptionController {
             model.addAttribute("product", product);
             model.addAttribute("attribute", attribute);
             model.addAttribute("result", result);
-            return "products/option_add";
+            return "option_add";
         }
         return "redirect:/product/" + product.getId() + "/attribute/" + attribute.getId() + "/option/" + option.getId();
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-    public String edit(Model model, @PathVariable Long prod_id, @PathVariable Long attr_id, @PathVariable Long id) throws ProductNotFoundException, AttributeNotFoundException, OptionNotFoundException {
+    public String edit(Model model,
+                       @PathVariable Long prod_id,
+                       @PathVariable Long attr_id,
+                       @PathVariable Long id
+    ) throws ProductNotFoundException, AttributeNotFoundException, OptionNotFoundException {
         Product product = optionService.getProduct(prod_id); // throws ProductNotFoundException
         Attribute attribute = optionService.getAttribute(product, attr_id); // throws AttributeNotFoundException
         Option option = optionService.getOption(product, attribute, id); // throws OptionNotFoundException
@@ -60,11 +74,16 @@ public class OptionController {
         model.addAttribute("attribute", attribute);
         model.addAttribute("option", option);
         model.addAttribute("form", option);
-        return "products/option_edit";
+        return "option_edit";
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-    public String update(Model model, @PathVariable Long prod_id, @PathVariable Long attr_id, @Valid @ModelAttribute Option form, BindingResult result) throws ProductNotFoundException, AttributeNotFoundException, OptionNotFoundException {
+    public String update(Model model,
+                         @PathVariable Long prod_id,
+                         @PathVariable Long attr_id,
+                         @Valid @ModelAttribute Option form,
+                         BindingResult result
+    ) throws ProductNotFoundException, AttributeNotFoundException, OptionNotFoundException {
         Product product = optionService.getProduct(prod_id); // throws ProductNotFoundException
         Attribute attribute = optionService.getAttribute(product, attr_id); // throws AttributeNotFoundException
         Option option = optionService.getOption(product, attribute, form.getId()); // throws AttributeNotFoundException
@@ -76,7 +95,7 @@ public class OptionController {
             model.addAttribute("attribute", attribute);
             model.addAttribute("option", option); // to separate current values with new values
             model.addAttribute("result", result);
-            return "products/option_edit";
+            return "option_edit";
         }
         return "redirect:/product/" + product.getId() + "/attribute/" + attribute.getId() + "/option/" + option.getId();
     }
@@ -95,16 +114,15 @@ public class OptionController {
     public String view(Model model,
                        @PathVariable Long prod_id,
                        @PathVariable Long attr_id,
-                       @PathVariable Long id)
-            throws ProductNotFoundException, AttributeNotFoundException, OptionNotFoundException
-    {
+                       @PathVariable Long id
+    ) throws ProductNotFoundException, AttributeNotFoundException, OptionNotFoundException {
         Product product = optionService.getProduct(prod_id); // throws ProductNotFoundException
         Attribute attribute = optionService.getAttribute(product, attr_id); // throws AttributeNotFoundException
         Option option = optionService.getOption(product, attribute, id); // throws OptionNotFoundException
         model.addAttribute("product", product);
         model.addAttribute("attribute", attribute);
         model.addAttribute("option", option);
-        return "products/option_view";
+        return "option_view";
     }
 
 }

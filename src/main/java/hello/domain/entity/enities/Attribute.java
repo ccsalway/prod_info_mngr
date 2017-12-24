@@ -1,12 +1,21 @@
-package hello.domain.entity;
+package hello.domain.entity.enities;
+
+import hello.domain.entity.DisplayedEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "attributes")
-public class Attribute extends BaseEntity {
+public class Attribute extends DisplayedEntity {
+
+    /**
+     * Display sequence position
+     */
+    @NotNull
+    private Integer position = -1;
 
     /**
      * Parent product
@@ -23,6 +32,14 @@ public class Attribute extends BaseEntity {
     private Set<Option> options = new HashSet<>();
 
     //-------------------------------
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
 
     public Product getProduct() {
         return product;

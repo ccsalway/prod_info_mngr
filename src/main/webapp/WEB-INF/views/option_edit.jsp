@@ -5,13 +5,13 @@
 <!DOCTYPE html>
 <html lang="en" class="has-navbar-fixed-top">
 <head>
-    <jsp:include page="../fragments/header.jsp"/>
+    <jsp:include page="fragments/header.jsp"/>
     <title>Option</title>
 </head>
 <body>
 
 <!-- navbar -->
-<jsp:include page="../fragments/navbar.jsp"/>
+<jsp:include page="fragments/navbar.jsp"/>
 
 <!-- content -->
 <div class="section">
@@ -67,7 +67,7 @@
 </div> <!-- /section -->
 
 <!-- footer -->
-<jsp:include page="../fragments/footer.jsp"/>
+<jsp:include page="fragments/footer.jsp"/>
 
 </body>
 </html>
