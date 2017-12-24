@@ -28,16 +28,6 @@ public class OptionService {
 
     // -------------------------------------------------------------
 
-    public Product getProduct(Long prod_id) throws ProductNotFoundException {
-        return productService.getProduct(prod_id);
-    }
-
-    public Attribute getAttribute(Product product, Long attr_id) throws AttributeNotFoundException {
-        return attributeService.getAttribute(product, attr_id);
-    }
-
-    // -------------------------------------------------------------
-
     private boolean nameAvailable(Attribute attribute, String name, Long id) {
         if (id == null) {
             return optionRepository.findByAttributeAndNameEquals(attribute, name) == null;
@@ -47,7 +37,7 @@ public class OptionService {
     }
 
     public synchronized void save(Option option, BindingResult result) {
-        // synchronized to avoid name duplication
+        // synchronized to avoid name duplication and next position overwriting
         if (!result.hasErrors()) {
             if (!nameAvailable(option.getAttribute(), option.getName(), option.getId())) {
                 result.addError(new FieldError("option", "name", "must be unique"));
@@ -63,7 +53,18 @@ public class OptionService {
 
     public synchronized void delete(Long id) {
         // synchronized so the positions can be updated
+        // TODO: minus 1 positions higher
         optionRepository.delete(id);
+    }
+
+    // -------------------------------------------------------------
+
+    public Product getProduct(Long prod_id) throws ProductNotFoundException {
+        return productService.getProduct(prod_id);
+    }
+
+    public Attribute getAttribute(Product product, Long attr_id) throws AttributeNotFoundException {
+        return attributeService.getAttribute(product, attr_id);
     }
 
     public Option getOption(Product product, Attribute attribute, Long id) throws OptionNotFoundException {
@@ -74,12 +75,12 @@ public class OptionService {
         return option;
     }
 
-    public Page<Option> getOptions(Attribute attribute, Pageable pageable) {
-        return optionRepository.findByAttributeEquals(attribute, pageable);
+    public boolean exists(Product product, Attribute attribute, Long id) throws OptionNotFoundException {
+        return getOption(product, attribute, id) != null;
     }
 
-    public void exists(Product product, Attribute attribute, Long id) throws OptionNotFoundException {
-        getOption(product, attribute, id);
+    public Page<Option> getOptions(Attribute attribute, Pageable pageable) {
+        return optionRepository.findByAttributeEquals(attribute, pageable);
     }
 
 }

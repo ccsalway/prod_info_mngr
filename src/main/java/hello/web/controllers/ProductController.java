@@ -70,8 +70,9 @@ public class ProductController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String view(Model model, @PathVariable Long id,
                        @RequestParam(name = "page", defaultValue = "0") int page,
-                       @RequestParam(name = "size", defaultValue = "8") int pageSize
-    ) throws ProductNotFoundException {
+                       @RequestParam(name = "size", defaultValue = "8") int pageSize)
+            throws ProductNotFoundException
+    {
         Product product = productService.getProduct(id);
         model.addAttribute("product", product);
         // requesting attributes separately (as opposed to using LAZY) allows the use of paging

@@ -18,13 +18,12 @@ public class ProductsController {
     @Autowired
     private ProductService productService;
 
-    // By default, the URL query parameters recognized are page, to specify page number limit,
-    // to specify how many results to return on a page, and sort to specify the query method parameter on which to sort.
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String viewAll(Model model,
-                          @RequestParam(name = "page", defaultValue = "0") int page
-    ) {
-        Page<Product> products = productService.getAll(new PageRequest(page, 10));
+                          @RequestParam(name = "page", defaultValue = "0") int page,
+                          @RequestParam(name = "size", defaultValue = "10") int pageSize)
+    {
+        Page<Product> products = productService.getProducts(new PageRequest(page, pageSize));
         model.addAttribute("products", products);
         return "products/products";
     }

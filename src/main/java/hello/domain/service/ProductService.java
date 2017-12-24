@@ -19,7 +19,7 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
     @Autowired
-    private AttributeRepository attributeRepository;
+    private AttributeService attributeService;
 
     // -------------------------------------------------------------
 
@@ -46,7 +46,9 @@ public class ProductService {
         productRepository.delete(id);
     }
 
-    public Page<Product> getAll(PageRequest pageRequest) {
+    // -------------------------------------------------------------
+
+    public Page<Product> getProducts(PageRequest pageRequest) {
         return productRepository.findAll(pageRequest);
     }
 
@@ -63,7 +65,7 @@ public class ProductService {
     }
 
     public Page<Attribute> getAttributes(Product product, Pageable pageable) {
-        return attributeRepository.findByProduct(product, pageable);
+        return attributeService.getAttributes(product, pageable);
     }
 
 }

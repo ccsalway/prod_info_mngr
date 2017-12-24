@@ -89,7 +89,12 @@ public class OptionController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String view(Model model, @PathVariable Long prod_id, @PathVariable Long attr_id, @PathVariable Long id) throws ProductNotFoundException, AttributeNotFoundException, OptionNotFoundException {
+    public String view(Model model,
+                       @PathVariable Long prod_id,
+                       @PathVariable Long attr_id,
+                       @PathVariable Long id)
+            throws ProductNotFoundException, AttributeNotFoundException, OptionNotFoundException
+    {
         Product product = optionService.getProduct(prod_id); // throws ProductNotFoundException
         Attribute attribute = optionService.getAttribute(product, attr_id); // throws AttributeNotFoundException
         Option option = optionService.getOption(product, attribute, id); // throws OptionNotFoundException

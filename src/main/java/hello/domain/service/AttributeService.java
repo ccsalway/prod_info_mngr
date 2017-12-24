@@ -27,12 +27,6 @@ public class AttributeService {
 
     // -------------------------------------------------------------
 
-    public Product getProduct(Long prod_id) throws ProductNotFoundException {
-        return productService.getProduct(prod_id);
-    }
-
-    // -------------------------------------------------------------
-
     private boolean nameAvailable(Product product, String name, Long id) {
         if (id == null) {
             return attributeRepository.findByProductAndNameEquals(product, name) == null;
@@ -61,6 +55,12 @@ public class AttributeService {
         attributeRepository.delete(id);
     }
 
+    // -------------------------------------------------------------
+
+    public Product getProduct(Long prod_id) throws ProductNotFoundException {
+        return productService.getProduct(prod_id);
+    }
+
     public Attribute getAttribute(Product product, Long id) throws AttributeNotFoundException {
         Attribute attribute = attributeRepository.findByProductAndId(product, id);
         if (attribute == null) {
@@ -71,6 +71,10 @@ public class AttributeService {
 
     public boolean exists(Product product, Long id) throws AttributeNotFoundException {
         return getAttribute(product, id) != null;
+    }
+
+    public Page<Attribute> getAttributes(Product product, Pageable pageable) {
+        return attributeRepository.findByProduct(product, pageable);
     }
 
     public Page<Option> getOptions(Attribute attribute, Pageable pageable) {
