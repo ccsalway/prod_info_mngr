@@ -13,25 +13,6 @@ import java.util.Set;
 public class Attribute extends BaseEntity {
 
     /**
-     * Name as it appears on the form
-     */
-    @NotEmpty
-    @Size(min = 1, max = 32)
-    private String name;
-
-    /**
-     * Whether it is displayed in forms
-     */
-    @NotNull
-    private boolean displayed = false;
-
-    /**
-     * Display sequence position
-     */
-    @NotNull
-    private Integer position = -1;
-
-    /**
      * Parent product
      */
     @ManyToOne(fetch = FetchType.LAZY) // LAZY: normally the product has already been fetched
@@ -46,30 +27,6 @@ public class Attribute extends BaseEntity {
     private Set<Option> options = new HashSet<>();
 
     //-------------------------------
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isDisplayed() {
-        return displayed;
-    }
-
-    public void setDisplayed(boolean displayed) {
-        this.displayed = displayed;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
 
     public Product getProduct() {
         return product;
@@ -86,4 +43,5 @@ public class Attribute extends BaseEntity {
     public void setOptions(Set<Option> options) {
         this.options = options;
     }
+
 }

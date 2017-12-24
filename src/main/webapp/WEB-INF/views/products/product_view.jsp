@@ -142,7 +142,7 @@
                         </c:when>
                         <c:otherwise>
                             <tr>
-                                <td class="has-text-grey-light" colspan="2">[Click Add to add an Attribute]</td>
+                                <td class="has-text-grey-light" colspan="3">[Click Add to add an Attribute]</td>
                             </tr>
                         </c:otherwise>
                     </c:choose>
