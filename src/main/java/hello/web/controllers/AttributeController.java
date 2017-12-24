@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,16 +36,13 @@ public class AttributeController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String save(Model model, @PathVariable Long prod_id, @Valid Attribute attribute, BindingResult result) throws ProductNotFoundException, AttributeNotFoundException {
         Product product = attributeService.getProduct(prod_id); // throws ProductNotFoundException
-        if (!attributeService.nameAvailable(product, attribute.getName())) {
-            result.addError(new FieldError("attribute", "name", "must be unique"));
-        }
+        attribute.setProduct(product);
+        attributeService.save(attribute, result);
         if (result.hasErrors()) {
             model.addAttribute("product", product);
             model.addAttribute("result", result);
             return "products/attribute_add";
         }
-        attribute.setProduct(product);
-        attributeService.save(attribute);
         return "redirect:/product/" + product.getId() + "/attribute/" + attribute.getId();
     }
 
@@ -63,16 +59,13 @@ public class AttributeController {
     public String update(Model model, @PathVariable Long prod_id, @Valid @ModelAttribute Attribute attribute, BindingResult result) throws ProductNotFoundException, AttributeNotFoundException {
         Product product = attributeService.getProduct(prod_id); // throws ProductNotFoundException
         attributeService.exists(product, attribute.getId()); // throws AttributeNotFoundException
-        if (!attributeService.nameAvailable(product, attribute.getName(), attribute.getId())) {
-            result.addError(new FieldError("attribute", "name", "must be unique"));
-        }
+        attribute.setProduct(product);
+        attributeService.save(attribute, result);
         if (result.hasErrors()) {
             model.addAttribute("product", product);
             model.addAttribute("result", result);
             return "products/attribute_edit";
         }
-        attribute.setProduct(product);
-        attributeService.save(attribute);
         return "redirect:/product/" + product.getId() + "/attribute/" + attribute.getId();
     }
 

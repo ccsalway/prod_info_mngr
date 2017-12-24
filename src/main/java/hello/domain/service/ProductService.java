@@ -9,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 @Service
 public class ProductService {
@@ -24,16 +23,23 @@ public class ProductService {
 
     // -------------------------------------------------------------
 
-    public boolean nameAvailable(String name) {
-        return productRepository.findByNameEquals(name) == null;
+    private boolean nameAvailable(String name, Long id) {
+        if (id == null) {
+            return productRepository.findByNameEquals(name) == null;
+        } else {
+            return productRepository.findByNameEqualsAndIdIsNot(name, id) == null;
+        }
     }
 
-    public boolean nameAvailable(String name, Long id) {
-        return productRepository.findByNameEqualsAndIdIsNot(name, id) == null;
-    }
-
-    public void save(Product product) {
-        productRepository.save(product);
+    public synchronized void save(Product product, BindingResult result) {
+        // synchronized to avoid name duplication
+        if (!result.hasErrors()) {
+            if (!nameAvailable(product.getName(), product.getId())) {
+                result.addError(new FieldError("product", "name", "must be unique"));
+            } else {
+                productRepository.save(product);
+            }
+        }
     }
 
     public void delete(Long id) {
@@ -52,8 +58,8 @@ public class ProductService {
         return product;
     }
 
-    public void exists(Long id) throws ProductNotFoundException {
-        getProduct(id);
+    public boolean exists(Long id) throws ProductNotFoundException {
+        return getProduct(id) != null;
     }
 
     public Page<Attribute> getAttributes(Product product, Pageable pageable) {

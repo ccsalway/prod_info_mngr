@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import static hello.core.Helpers.getValueOrDefault;
 
@@ -38,20 +38,32 @@ public class OptionService {
 
     // -------------------------------------------------------------
 
-    public boolean nameAvailable(Attribute attribute, String name) {
-        return optionRepository.findByAttributeAndNameEquals(attribute, name) == null;
-    }
-
-    public boolean nameAvailable(Attribute attribute, String name, Long id) {
-        return optionRepository.findByAttributeAndNameEqualsAndIdIsNot(attribute, name, id) == null;
-    }
-
-    public synchronized void save(Option option) {
-        if (option.isNew()) {
-            int nextPos = (int) getValueOrDefault(optionRepository.findMaxPosition(option.getAttribute().getId()), -1);
-            option.setPosition(nextPos + 1);
+    private boolean nameAvailable(Attribute attribute, String name, Long id) {
+        if (id == null) {
+            return optionRepository.findByAttributeAndNameEquals(attribute, name) == null;
+        } else {
+            return optionRepository.findByAttributeAndNameEqualsAndIdIsNot(attribute, name, id) == null;
         }
-        optionRepository.save(option);
+    }
+
+    public synchronized void save(Option option, BindingResult result) {
+        // synchronized to avoid name duplication
+        if (!result.hasErrors()) {
+            if (!nameAvailable(option.getAttribute(), option.getName(), option.getId())) {
+                result.addError(new FieldError("option", "name", "must be unique"));
+            } else {
+                if (option.isNew()) {
+                    int nextPos = (int) getValueOrDefault(optionRepository.findMaxPosition(option.getAttribute().getId()), -1);
+                    option.setPosition(nextPos + 1);
+                }
+                optionRepository.save(option);
+            }
+        }
+    }
+
+    public synchronized void delete(Long id) {
+        // synchronized so the positions can be updated
+        optionRepository.delete(id);
     }
 
     public Option getOption(Product product, Attribute attribute, Long id) throws OptionNotFoundException {
@@ -70,7 +82,4 @@ public class OptionService {
         getOption(product, attribute, id);
     }
 
-    public void delete(Long id) {
-        optionRepository.delete(id);
-    }
 }

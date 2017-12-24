@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,14 +31,11 @@ public class ProductController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String save(Model model, @Valid @ModelAttribute Product product, BindingResult result) {
-        if (!productService.nameAvailable(product.getName())) {
-            result.addError(new FieldError("product", "name", "must be unique"));
-        }
+        productService.save(product, result);
         if (result.hasErrors()) {
             model.addAttribute("result", result);
             return "products/product_add";
         }
-        productService.save(product);
         return "redirect:/product/" + product.getId();
     }
 
@@ -53,14 +49,11 @@ public class ProductController {
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
     public String update(Model model, @Valid @ModelAttribute Product product, BindingResult result) throws ProductNotFoundException {
         productService.exists(product.getId()); // throws ProductNotFoundException
-        if (!productService.nameAvailable(product.getName(), product.getId())) {
-            result.addError(new FieldError("product", "name", "must be unique"));
-        }
+        productService.save(product, result);
         if (result.hasErrors()) {
             model.addAttribute("result", result);
             return "products/product_edit";
         }
-        productService.save(product);
         return "redirect:/product/" + product.getId();
     }
 
