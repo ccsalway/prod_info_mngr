@@ -70,7 +70,9 @@
 <script>
     $("#dataTable").find("> tbody > tr").on("click", function () {
         var id = $(this).attr("data-id");
-        window.location.href = "<s:url value="/product/"/>" + id;
+        if (id !== undefined) {
+            window.location.href = "<s:url value="/product/"/>" + id;
+        }
     });
 </script>
 
