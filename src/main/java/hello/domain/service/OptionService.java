@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+import static hello.core.Helpers.getValueOrDefault;
+
 @Service
 public class OptionService {
 
@@ -44,8 +46,11 @@ public class OptionService {
         return optionRepository.findByAttributeAndNameEqualsAndIdIsNot(attribute, name, id) == null;
     }
 
-
-    public void save(Option option) {
+    public synchronized void save(Option option) {
+        if (option.isNew()) {
+            int nextPos = (int) getValueOrDefault(optionRepository.findMaxPosition(option.getAttribute().getId()), -1);
+            option.setPosition(nextPos + 1);
+        }
         optionRepository.save(option);
     }
 

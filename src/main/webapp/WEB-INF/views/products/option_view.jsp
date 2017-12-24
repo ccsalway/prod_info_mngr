@@ -10,8 +10,8 @@
 <body>
 <jsp:include page="../fragments/navbar.jsp"/>
 <div class="section">
-    <div class="container">
-        <div class="level">
+    <div class="container is-fluid">
+        <div class="level is-mobile">
             <div class="level-left">
                 <div class="level-item">
                     <h1 class="title">Option</h1>
@@ -35,33 +35,33 @@
                                 New
                             </a>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-        <hr/>
+        <nav class="breadcrumb">
+            <ul>
+                <li>/</li>
+                <li><a href="<s:url value="/products"/>">Products</a></li>
+                <li><a href="<c:url value="/product/${product.id}"/>">${fn:htmlEscape(product.name)}</a></li>
+                <li><a href="<c:url value="/product/${product.id}"/>/attribute/${attribute.id}">${fn:htmlEscape(attribute.name)}</a></li>
+                <li class="is-active"><a href="#">${fn:htmlEscape(option.name)}</a></li>
+            </ul>
+        </nav>
+        <hr class="margin-top-small">
         <div class="field">
-            <label class="label">Product Name</label>
-            <div class="content">
-                <p>
-                    <a href="<c:url value="/product/${product.id}"/>">${fn:htmlEscape(product.name)}</a>
-                </p>
-            </div>
-        </div>
-        <div class="field">
-            <label class="label">Attribute Name</label>
-            <div class="content">
-                <p>
-                    <a href="<c:url value="/product/${product.id}"/>/attribute/${attribute.id}">${fn:htmlEscape(attribute.name)}</a>
-                </p>
-            </div>
-        </div>
-        <div class="field">
-            <label class="label">Option Name</label>
+            <label class="label">Name</label>
             <div class="content">
                 <p>
                     ${fn:htmlEscape(option.name)}
+                </p>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Displayed</label>
+            <div class="content">
+                <p>
+                    ${option.displayed ? "Yes" : "No"}
                 </p>
             </div>
         </div>

@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fn" uri="/WEB-INF/tlds/functions.tld" %>
 <!DOCTYPE html>
 <html lang="en" class="has-navbar-fixed-top">
@@ -11,8 +10,8 @@
 <body>
 <jsp:include page="../fragments/navbar.jsp"/>
 <div class="section">
-    <div class="container">
-        <div class="level">
+    <div class="container is-fluid">
+        <div class="level is-mobile">
             <div class="level-left">
                 <div class="level-item">
                     <h1 class="title">Product</h1>
@@ -40,9 +39,16 @@
                 </div>
             </div>
         </div>
-        <hr/>
+        <nav class="breadcrumb">
+            <ul>
+                <li>/</li>
+                <li><a href="<s:url value="/products"/>">Products</a></li>
+                <li class="is-active"><a href="#">${fn:htmlEscape(product.name)}</a></li>
+            </ul>
+        </nav>
+        <hr class="margin-top-small">
         <div class="field">
-            <label class="label">Product Name</label>
+            <label class="label">Name</label>
             <div class="content">
                 <p>
                     ${fn:htmlEscape(product.name)}
@@ -50,7 +56,7 @@
             </div>
         </div>
         <div class="field">
-            <label class="label">Product Description</label>
+            <label class="label">Description</label>
             <div class="content">
                 <c:choose>
                     <c:when test="${not empty product.description}">
@@ -64,33 +70,86 @@
             </div>
         </div>
         <div class="field">
+            <label class="label">Displayed</label>
+            <div class="content">
+                <p>
+                    ${product.displayed ? "Yes" : "No"}
+                </p>
+            </div>
+        </div>
+        <div class="field">
             <div class="is-pulled-right">
                 <a class="button is-info is-small" href="<s:url value="/product/${product.id}/attribute/add"/>">
                     Add
                 </a>
             </div>
             <label class="label">Attributes</label>
-            <div class="content">
+            <div class="content" style="margin-top: 1rem">
                 <table id="attrTable" class="table is-hoverable is-striped is-fullwidth" style="cursor:pointer;">
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Options</th>
+                        <th class="is-narrow has-text-centered">Displayed</th>
+                        <th class="is-narrow has-text-centered">Position</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${attributes.content}" var="attr">
-                        <tr data-id="${attr.id}">
-                            <td>${fn:htmlEscape(attr.name)}</td>
-                            <td><c:forEach items="${attr.options}" var="opt" varStatus="loop">
-                                ${opt.name}<c:if test="${!loop.last}">,</c:if>
-                            </c:forEach></td>
-                        </tr>
-                    </c:forEach>
+                    <c:choose>
+                        <c:when test="${attributes.totalElements > 0}">
+                            <c:forEach items="${attributes.content}" var="attr">
+                                <tr data-id="${attr.id}">
+                                    <td>${fn:htmlEscape(attr.name)}</td>
+                                    <td class="is-narrow has-text-centered">
+                                        <c:choose>
+                                            <c:when test="${attr.displayed}">
+                                                <i class="fa fa-eye"></i>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <i class="fa fa-eye-slash has-text-grey-light"></i>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td class="is-narrow">
+                                        <div class="field is-grouped">
+                                            <div class="control">
+                                                <c:choose>
+                                                    <c:when test="${attr.position == 0}">
+                                                        <button class="button" style="padding:5px 12px;" disabled>
+                                                            &#10005;
+                                                        </button>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <button class="button">&#9650;</button>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                            <div class="control">
+                                                <c:choose>
+                                                    <c:when test="${attr.position == attributes.totalElements - 1}">
+                                                        <button class="button" style="padding:5px 13px;" disabled>
+                                                            &#10005;
+                                                        </button>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <button class="button">&#9660;</button>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <tr>
+                                <td class="has-text-grey-light" colspan="2">[Click Add to add an Attribute]</td>
+                            </tr>
+                        </c:otherwise>
+                    </c:choose>
                     </tbody>
                 </table>
             </div>
-            <c:set var="page" value="${attributes}" />
+            <c:set var="page" value="${attributes}"/>
             <%@ include file="../fragments/navigation.jsp" %>
         </div>
     </div>

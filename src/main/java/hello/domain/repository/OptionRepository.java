@@ -4,6 +4,7 @@ import hello.domain.entity.Attribute;
 import hello.domain.entity.Option;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,4 +18,8 @@ public interface OptionRepository extends PagingAndSortingRepository<Option, Lon
     Option findByAttributeAndNameEqualsAndIdIsNot(Attribute attribute, String name, Long id);
 
     Option findByAttributeAndIdIs(Attribute attribute, Long id);
+
+    @Query("select max(o.position) from Option o where o.attribute.id = ?1")
+    Object findMaxPosition(Long attribute_id);  // could return null
+
 }

@@ -32,19 +32,19 @@ public class TestController {
         Attribute attribute;
         Option option;
 
-        for (long p = 0; p < 100; p++) {
+        for (long p = 0; p < 50; p++) {
             product = new Product();
             product.setName(String.format("test_product_%d", p));
             product.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
             productService.save(product);
 
-            for (long a = 0; a < 100; a++) {
+            for (long a = 0; a < 10; a++) {
                 attribute = new Attribute();
                 attribute.setProduct(product);
                 attribute.setName(String.format("test_attribute_%d", a));
                 attributeService.save(attribute);
 
-                for (long o = 0; o < 100; o++) {
+                for (long o = 0; o < 5; o++) {
                     option = new Option();
                     option.setAttribute(attribute);
                     option.setName(String.format("test_option_%d", o));

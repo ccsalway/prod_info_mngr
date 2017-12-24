@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+import static hello.core.Helpers.getValueOrDefault;
+
 @Service
 public class AttributeService {
 
@@ -32,6 +34,10 @@ public class AttributeService {
 
     // -------------------------------------------------------------
 
+    public void exists(Product product, Long id) throws AttributeNotFoundException {
+        getAttribute(product, id);
+    }
+
     public boolean nameAvailable(Product product, String name) {
         return attributeRepository.findByProductAndNameEquals(product, name) == null;
     }
@@ -40,8 +46,17 @@ public class AttributeService {
         return attributeRepository.findByProductAndNameEqualsAndIdIsNot(product, name, id) == null;
     }
 
-    public void save(Attribute attribute) {
+    public synchronized void save(Attribute attribute) {
+        if (attribute.isNew()) {
+            int nextPos = (int) getValueOrDefault(attributeRepository.findMaxPosition(attribute.getProduct().getId()), -1);
+            attribute.setPosition(nextPos + 1);
+        }
         attributeRepository.save(attribute);
+    }
+
+    public synchronized void delete(Long id) {
+        // synchronised because we need to update the positions after deletion
+        attributeRepository.delete(id);
     }
 
     public Attribute getAttribute(Product product, Long id) throws AttributeNotFoundException {
@@ -52,15 +67,7 @@ public class AttributeService {
         return attribute;
     }
 
-    public void exists(Product product, Long id) throws AttributeNotFoundException {
-        getAttribute(product, id);
-    }
-
     public Page<Option> getOptions(Attribute attribute, Pageable pageable) {
         return optionService.getOptions(attribute, pageable);
-    }
-
-    public void delete(Long id) {
-        attributeRepository.delete(id);
     }
 }

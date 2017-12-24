@@ -10,36 +10,40 @@
 <body>
 <jsp:include page="../fragments/navbar.jsp"/>
 <div class="section">
-    <div class="container">
-        <h1 class="title">New Option</h1>
-        <hr/>
+    <div class="container is-fluid">
+        <div class="level is-mobile">
+            <div class="level-left">
+                <div class="level-item">
+                    <h1 class="title">New Option</h1>
+                </div>
+            </div>
+        </div>
+        <nav class="breadcrumb">
+            <ul>
+                <li>/</li>
+                <li><a href="<c:url value="/product/${product.id}"/>">${fn:htmlEscape(product.name)}</a></li>
+                <li><a href="<c:url value="/product/${product.id}"/>/attribute/${attribute.id}">${fn:htmlEscape(attribute.name)}</a></li>
+                <li class="is-active"><a href="#">New</a></li>
+            </ul>
+        </nav>
+        <hr class="margin-top-small">
         <form method="post" action="<s:url value="/product/${product.id}/attribute/${attribute.id}/option/add"/>" autocomplete="off">
             <div class="field">
-                <label class="label">Product Name</label>
-                <div class="content">
-                    <p>
-                        ${fn:htmlEscape(product.name)}
-                    </p>
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Attribute Name</label>
-                <div class="content">
-                    <p>
-                        ${fn:htmlEscape(attribute.name)}
-                    </p>
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Option Name</label>
+                <label class="label">Name</label>
                 <div class="control">
                     <input class="input" type="text" name="name" value="${fn:htmlEscape(option.name)}" placeholder="Option name" autofocus>
                 </div>
-                <c:if test="${result.getFieldErrorCount('name') > 0}">
-                    <c:forEach items="${result.getFieldErrors('name')}" var="error">
-                        <p class="help is-danger">${error.getDefaultMessage()}</p>
-                    </c:forEach>
-                </c:if>
+                <c:forEach items="${result.getFieldErrors('name')}" var="error">
+                    <p class="help is-danger">${error.getDefaultMessage()}</p>
+                </c:forEach>
+            </div>
+            <div class="field">
+                <label class="label">Displayed</label>
+                <div class="content">
+                    <p>
+                        New Options are hidden by default.
+                    </p>
+                </div>
             </div>
             <div class="field is-grouped">
                 <div class="control">

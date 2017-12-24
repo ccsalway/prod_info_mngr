@@ -5,3 +5,15 @@
 .section {
     padding: 1rem 0 3rem;
 }
+
+.breadcrumb:not(:last-child) {
+    margin-bottom: 0;
+}
+
+.level:not(:last-child) {
+    margin-bottom: 0;
+}
+
+hr.margin-top-small {
+    margin-top: 3px;
+}

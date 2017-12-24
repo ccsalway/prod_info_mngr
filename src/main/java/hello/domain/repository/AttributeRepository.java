@@ -4,6 +4,7 @@ import hello.domain.entity.Attribute;
 import hello.domain.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,4 +18,8 @@ public interface AttributeRepository extends PagingAndSortingRepository<Attribut
     Attribute findByProductAndNameEquals(Product product, String name);
 
     Attribute findByProductAndNameEqualsAndIdIsNot(Product product, String name, Long id);
+
+    @Query("select max(a.position) from Attribute a where a.product.id = ?1")
+    Object findMaxPosition(Long product_id);  // could return null
+
 }
