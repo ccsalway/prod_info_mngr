@@ -75,10 +75,6 @@ public class OptionService {
         return option;
     }
 
-    public boolean exists(Product product, Attribute attribute, Long id) throws OptionNotFoundException {
-        return getOption(product, attribute, id) != null;
-    }
-
     public Page<Option> getOptions(Attribute attribute, Pageable pageable) {
         return optionRepository.findByAttributeEquals(attribute, pageable);
     }

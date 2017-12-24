@@ -42,14 +42,16 @@ public class ProductController {
     public String edit(Model model, @PathVariable Long id) throws ProductNotFoundException {
         Product product = productService.getProduct(id); // throws ProductNotFoundException
         model.addAttribute("product", product);
+        model.addAttribute("form", product);
         return "products/product_edit";
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-    public String update(Model model, @Valid @ModelAttribute Product product, BindingResult result) throws ProductNotFoundException {
-        productService.exists(product.getId()); // throws ProductNotFoundException
-        productService.save(product, result);
+    public String update(Model model, @Valid @ModelAttribute Product form, BindingResult result) throws ProductNotFoundException {
+        Product product = productService.getProduct(form.getId()); // throws ProductNotFoundException
+        productService.save(form, result);
         if (result.hasErrors()) {
+            model.addAttribute("product", product); // to separate current values with new values
             model.addAttribute("result", result);
             return "products/product_edit";
         }

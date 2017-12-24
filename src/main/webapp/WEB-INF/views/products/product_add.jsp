@@ -6,66 +6,64 @@
 <html lang="en" class="has-navbar-fixed-top">
 <head>
     <jsp:include page="../fragments/header.jsp"/>
+    <title>Product</title>
 </head>
 <body>
+
+<!-- navbar -->
 <jsp:include page="../fragments/navbar.jsp"/>
+
+<!-- content -->
 <div class="section">
     <div class="container is-fluid">
-        <div class="level is-mobile">
-            <div class="level-left">
-                <div class="level-item">
-                    <h1 class="title">New Product</h1>
-                </div>
-            </div>
-        </div>
-        <nav class="breadcrumb">
+
+        <!-- title -->
+        <h1 class="title">Product</h1>
+
+        <!-- breadcrumbs -->
+        <nav class="breadcrumb" aria-label="breadcrumbs">
             <ul>
-                <li>/</li>
-                <li class="is-active"><a href="#">New</a></li>
+                <li><a href="<s:url value="/products"/>">Products</a></li>
+                <li class="is-active"><a href="#" aria-current="page">New</a></li>
             </ul>
         </nav>
-        <hr class="margin-top-small">
+
+        <hr>
+
+        <!-- form -->
         <form method="post" action="<s:url value="/product/add"/>" autocomplete="off">
-            <div class="field">
-                <label class="label">Name</label>
-                <div class="control">
-                    <input class="input" type="text" name="name" value="${fn:htmlEscape(product.name)}" placeholder="Product name" autofocus>
-                </div>
+            <div class="block">
+                <h5 class="title is-5">Name</h5>
+                <input class="input" type="text" name="name" value="${fn:htmlEscape(product.name)}" placeholder="Product name" autofocus>
                 <c:forEach items="${result.getFieldErrors('name')}" var="error">
                     <p class="help is-danger">${error.getDefaultMessage()}</p>
                 </c:forEach>
             </div>
-            <div class="field">
-                <label class="label">Description</label>
-                <div class="control">
-                    <textarea class="textarea" name="description" placeholder="Product description">${fn:htmlEscape(product.description)}</textarea>
-                </div>
+
+            <div class="block">
+                <h5 class="title is-5">Description</h5>
+                <textarea class="textarea" name="description" placeholder="Product description">${fn:htmlEscape(product.description)}</textarea>
                 <c:forEach items="${result.getFieldErrors('description')}" var="error">
                     <p class="help is-danger">${error.getDefaultMessage()}</p>
                 </c:forEach>
             </div>
-            <div class="field">
-                <label class="label">Displayed</label>
-                <div class="content">
-                    <p>
-                        New Products are hidden by default, since they won't have any attributes.
-                    </p>
-                </div>
+
+            <div class="block">
+                <h5 class="title is-5">Displayed</h5>
+                <p>New Products are, by default, not displayed.</p>
             </div>
-            <div class="field is-grouped">
-                <div class="control">
-                    <button type="submit" class="button is-info">Submit</button>
-                </div>
-                <div class="control">
-                    <a class="button is-text" href="<s:url value="/products"/>">
-                        Cancel
-                    </a>
-                </div>
+
+            <div class="block">
+                <button type="submit" class="button is-info">Submit</button>
+                <a class="button is-text" href="<s:url value="/products"/>">Cancel</a>
             </div>
         </form>
-    </div>
-</div>
-<%@ include file="../fragments/footer.jsp" %>
+
+    </div> <!-- /container -->
+</div> <!-- /section -->
+
+<!-- footer -->
+<jsp:include page="../fragments/footer.jsp"/>
 
 </body>
 </html>

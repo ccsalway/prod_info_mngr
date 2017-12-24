@@ -59,10 +59,6 @@ public class ProductService {
         return product;
     }
 
-    public boolean exists(Long id) throws ProductNotFoundException {
-        return getProduct(id) != null;
-    }
-
     public Page<Attribute> getAttributes(Product product, Pageable pageable) {
         return attributeService.getAttributes(product, pageable);
     }

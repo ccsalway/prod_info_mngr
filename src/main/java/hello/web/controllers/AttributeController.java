@@ -51,17 +51,20 @@ public class AttributeController {
         Attribute attribute = attributeService.getAttribute(product, id); // throws AttributeNotFoundException
         model.addAttribute("product", product);
         model.addAttribute("attribute", attribute);
+        model.addAttribute("form", attribute);
         return "products/attribute_edit";
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-    public String update(Model model, @PathVariable Long prod_id, @Valid @ModelAttribute Attribute attribute, BindingResult result) throws ProductNotFoundException, AttributeNotFoundException {
+    public String update(Model model, @PathVariable Long prod_id, @Valid @ModelAttribute Attribute form, BindingResult result) throws ProductNotFoundException, AttributeNotFoundException {
         Product product = attributeService.getProduct(prod_id); // throws ProductNotFoundException
-        attributeService.exists(product, attribute.getId()); // throws AttributeNotFoundException
-        attribute.setProduct(product);
-        attributeService.save(attribute, result);
+        Attribute attribute = attributeService.getAttribute(product, form.getId()); // throws AttributeNotFoundException
+        form.setProduct(product);
+        form.setPosition(attribute.getPosition());  // not updated from the form
+        attributeService.save(form, result);
         if (result.hasErrors()) {
             model.addAttribute("product", product);
+            model.addAttribute("attribute", attribute); // to separate current values with new values
             model.addAttribute("result", result);
             return "products/attribute_edit";
         }

@@ -13,7 +13,7 @@
                 </c:otherwise>
             </c:choose>
         </li>
-        <li><span class="pagination-ellipsis">&hellip;</span></li>
+        <li class="is-hidden-mobile"><span class="pagination-ellipsis">&hellip;</span></li>
         <li>
             <c:choose>
                 <c:when test="${page.hasPrevious()}">
@@ -37,7 +37,7 @@
                 </c:otherwise>
             </c:choose>
         </li>
-        <li><span class="pagination-ellipsis">&hellip;</span></li>
+        <li class="is-hidden-mobile"><span class="pagination-ellipsis">&hellip;</span></li>
         <li>
             <c:choose>
                 <c:when test="${page.hasNext()}">

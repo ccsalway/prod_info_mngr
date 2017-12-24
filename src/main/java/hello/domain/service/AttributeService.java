@@ -69,10 +69,6 @@ public class AttributeService {
         return attribute;
     }
 
-    public boolean exists(Product product, Long id) throws AttributeNotFoundException {
-        return getAttribute(product, id) != null;
-    }
-
     public Page<Attribute> getAttributes(Product product, Pageable pageable) {
         return attributeRepository.findByProduct(product, pageable);
     }
